@@ -16,7 +16,7 @@ private const val REQUEST_ADD_DISH = 1
 
 class MainActivity : AppCompatActivity() {
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater)}
-    private val dishAdapter by lazy {DishAdapter(Shared.dishList)}
+    private val dishAdapter by lazy {DishAdapter(emptyList())}
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -51,7 +51,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        dishAdapter.list = Shared.dishList
+//        dishAdapter.list = Shared.dishList
     }
 
     fun openAddActivity(view: View)

@@ -9,7 +9,7 @@ data class DishDTO(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
     val name: String,
-    val ingredients: List<String>,
+    val ingredients: String,
     @ColumnInfo(name = "photo_name")
     val photoName: String
 )
