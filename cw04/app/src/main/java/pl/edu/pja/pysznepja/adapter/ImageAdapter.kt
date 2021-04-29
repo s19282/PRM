@@ -22,6 +22,9 @@ class DishImage(private val binding: ItemImageBinding) : RecyclerView.ViewHolder
 class ImageAdapter(private val images: List<Drawable>): RecyclerView.Adapter<DishImage>()
 {
     var selectedItem: Int? = null
+    val selectedDrawable: Drawable?
+        get() = selectedItem?.let { images[it]}
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DishImage {
         val binding = ItemImageBinding.inflate(
             LayoutInflater.from(parent.context),
