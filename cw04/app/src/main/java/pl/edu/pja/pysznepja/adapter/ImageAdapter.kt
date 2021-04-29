@@ -34,10 +34,9 @@ class ImageAdapter(private val images: List<Drawable>): RecyclerView.Adapter<Dis
     }
 
     private fun setSelection(layoutPosition: Int) {
-        selectedItem?.let {
-            selectedItem = layoutPosition
-            notifyItemChanged(it)
-        }
+        val oldPosition = selectedItem
+        selectedItem = layoutPosition
+        oldPosition?.let { notifyItemChanged(it) }
         notifyItemChanged(layoutPosition)
     }
 
