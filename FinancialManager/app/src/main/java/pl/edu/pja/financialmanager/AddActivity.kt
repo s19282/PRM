@@ -1,5 +1,6 @@
 package pl.edu.pja.financialmanager
 
+import android.app.Activity
 import android.graphics.drawable.Drawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -15,6 +16,7 @@ class AddActivity : AppCompatActivity()
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
+        supportActionBar?.title = "Add transfer"
         setContentView(binding.root)
         setupSave()
         setupSpinners()
@@ -66,6 +68,7 @@ class AddActivity : AppCompatActivity()
                     if (type == 0L) loadDrawables()[0] else loadDrawables()[1]
             )
             Shared.transactionList.add(transaction)
+            setResult(Activity.RESULT_OK)
             finish()
         }
     }

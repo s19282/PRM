@@ -1,5 +1,6 @@
 package pl.edu.pja.financialmanager
 
+import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -21,24 +22,27 @@ class MainActivity : AppCompatActivity()
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
+        supportActionBar?.title = "Recent transfers"
         setContentView(binding.root)
         setupTransactionList()
     }
 
-    private fun setupTransactionList() {
+    private fun setupTransactionList()
+    {
         binding.transactionList.apply {
             adapter = transactionAdapter
             layoutManager = LinearLayoutManager(context)
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        transactionAdapter.list = Shared.transactionList
-        updateSum()
-    }
+//    override fun onResume() {
+//        super.onResume()
+//        transactionAdapter.list = Shared.transactionList
+//        updateSum()
+//    }
 
-    private fun updateSum() {
+    private fun updateSum()
+    {
         var inSum = 0.0
         var outSum = 0.0
         for(transaction in Shared.transactionList)
@@ -51,8 +55,27 @@ class MainActivity : AppCompatActivity()
 
     }
 
-    fun openAddActivity(view: View) {
-        startActivity(Intent(this, AddActivity::class.java))
+    fun openAddActivity(view: View)
+    {
+        startActivityForResult(
+                Intent(this, AddActivity::class.java),
+                REQUEST_ADD_TRANSFER
+        )
+    }
+
+    fun openChartActivity(view: View)
+    {
+        startActivity(Intent(this,ChartActivity::class.java))
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?)
+    {
+        if(requestCode == REQUEST_ADD_TRANSFER && resultCode == Activity.RESULT_OK)
+        {
+            transactionAdapter.list = Shared.transactionList
+            updateSum()
+        }
+        super.onActivityResult(requestCode, resultCode, data)
     }
 
 }
