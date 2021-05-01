@@ -1,8 +1,10 @@
 package pl.edu.pja.financialmanager.adapter
 
+import android.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import pl.edu.pja.financialmanager.Shared
 import pl.edu.pja.financialmanager.databinding.ItemTransferBinding
 import pl.edu.pja.financialmanager.model.Transaction
 
@@ -21,9 +23,32 @@ class TransactionAdapter(initList: List<Transaction>) : RecyclerView.Adapter<Tra
                 parent,
                 false
         )
-        return TransactionViewHolder(binding)
+        return TransactionViewHolder(binding).also { holder -> binding.root.setOnLongClickListener{
+            removeItem(holder.layoutPosition,parent)
+        } }
 //        TODO: onClick 1:05:22 04.19
     }
+
+    private fun removeItem(position: Int, parent: ViewGroup): Boolean
+    {
+//        TODO: check once more
+        val builder = AlertDialog.Builder(parent.context)
+        builder.setMessage("Are you sure you want to Delete?")
+            .setCancelable(false)
+            .setPositiveButton("Yes") { dialog, id ->
+                Shared.transactionList.removeAt(position)
+                notifyDataSetChanged()
+            }
+            .setNegativeButton("No") { dialog, id ->
+                dialog.dismiss()
+            }
+        val alert = builder.create()
+        alert.show()
+//        Shared.transactionList.removeAt(position)
+//        notifyDataSetChanged()
+        return true
+    }
+
 
     override fun onBindViewHolder(holder: TransactionViewHolder, position: Int) {
         holder.bindTransaction(list[position])
