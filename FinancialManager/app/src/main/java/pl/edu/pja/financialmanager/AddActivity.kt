@@ -1,16 +1,19 @@
 package pl.edu.pja.financialmanager
 
 import android.app.Activity
+import android.graphics.Color
 import android.graphics.drawable.Drawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
 import android.widget.ArrayAdapter
+import android.widget.EditText
 import android.widget.Spinner
 import pl.edu.pja.financialmanager.databinding.ActivityAddBinding
 import pl.edu.pja.financialmanager.model.Transaction
 import java.time.LocalDate
 
-class AddActivity : AppCompatActivity()
+class AddActivity(private val index: Int =-1) : AppCompatActivity()
 {
     private val binding by lazy { ActivityAddBinding.inflate(layoutInflater) }
     override fun onCreate(savedInstanceState: Bundle?)
@@ -20,6 +23,12 @@ class AddActivity : AppCompatActivity()
         setContentView(binding.root)
         setupSave()
         setupSpinners()
+        if (index != -1) fillWithData()
+    }
+
+    private fun fillWithData() {
+        val transaction = Shared.transactionList[index]
+        findViewById<EditText>(R.id.place).setText(transaction.place)
     }
 
     private fun setupSpinners()

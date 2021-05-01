@@ -13,6 +13,8 @@ import pl.edu.pja.financialmanager.adapter.TransactionAdapter
 import pl.edu.pja.financialmanager.databinding.ActivityMainBinding
 
 private const val REQUEST_ADD_TRANSFER = 1
+private const val REQUEST_EDIT_TRANSFER = 2
+//TODO: check why it is used
 
 class MainActivity : AppCompatActivity()
 {
@@ -25,6 +27,7 @@ class MainActivity : AppCompatActivity()
         supportActionBar?.title = "Recent transfers"
         setContentView(binding.root)
         setupTransactionList()
+
     }
 
     private fun setupTransactionList()
@@ -60,6 +63,14 @@ class MainActivity : AppCompatActivity()
         startActivityForResult(
                 Intent(this, AddActivity::class.java),
                 REQUEST_ADD_TRANSFER
+        )
+    }
+
+    fun openEditActivity(view: View, index: Int)
+    {
+        startActivityForResult(
+            Intent(this, AddActivity(index)::class.java),
+            REQUEST_EDIT_TRANSFER
         )
     }
 

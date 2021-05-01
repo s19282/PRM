@@ -1,9 +1,11 @@
 package pl.edu.pja.financialmanager.adapter
 
 import android.app.AlertDialog
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import pl.edu.pja.financialmanager.AddActivity
 import pl.edu.pja.financialmanager.Shared
 import pl.edu.pja.financialmanager.databinding.ItemTransferBinding
 import pl.edu.pja.financialmanager.model.Transaction
@@ -23,11 +25,17 @@ class TransactionAdapter(initList: List<Transaction>) : RecyclerView.Adapter<Tra
                 parent,
                 false
         )
-        return TransactionViewHolder(binding).also { holder -> binding.root.setOnLongClickListener{
+        return TransactionViewHolder(binding).also { holder ->
+            binding.root.setOnLongClickListener{
             removeItem(holder.layoutPosition,parent)
-        } }
+        }
+            binding.root.setOnClickListener{
+
+        }
+        }
 //        TODO: onClick 1:05:22 04.19
     }
+
 
     private fun removeItem(position: Int, parent: ViewGroup): Boolean
     {
@@ -38,6 +46,7 @@ class TransactionAdapter(initList: List<Transaction>) : RecyclerView.Adapter<Tra
             .setPositiveButton("Yes") { dialog, id ->
                 Shared.transactionList.removeAt(position)
                 notifyDataSetChanged()
+//                TODO: replace notifydatasetchanged with notifyItemChanged
             }
             .setNegativeButton("No") { dialog, id ->
                 dialog.dismiss()
