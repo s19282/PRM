@@ -4,7 +4,9 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.TextureView
 import android.view.View
+import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import pl.edu.pja.financialmanager.adapter.TransactionAdapter
 import pl.edu.pja.financialmanager.databinding.ActivityMainBinding
@@ -33,10 +35,23 @@ class MainActivity : AppCompatActivity()
     override fun onResume() {
         super.onResume()
         transactionAdapter.list = Shared.transactionList
+        updateSum()
     }
 
-    fun openAddActivity(view: View)
-    {
+    private fun updateSum() {
+        var inSum = 0.0
+        var outSum = 0.0
+        for(transaction in Shared.transactionList)
+        {
+            if(transaction.type == 0L ) inSum += transaction.amount
+            else outSum += transaction.amount
+        }
+        findViewById<TextView>(R.id.incomesSum).setText(inSum.toString())
+        findViewById<TextView>(R.id.outcomesSum).setText(outSum.toString())
+
+    }
+
+    fun openAddActivity(view: View) {
         startActivity(Intent(this, AddActivity::class.java))
     }
 
