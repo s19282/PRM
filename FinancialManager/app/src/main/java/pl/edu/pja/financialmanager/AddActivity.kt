@@ -13,7 +13,7 @@ import pl.edu.pja.financialmanager.databinding.ActivityAddBinding
 import pl.edu.pja.financialmanager.model.Transaction
 import java.time.LocalDate
 
-class AddActivity(private val index: Int =-1) : AppCompatActivity()
+class AddActivity : AppCompatActivity()
 {
     private val binding by lazy { ActivityAddBinding.inflate(layoutInflater) }
     override fun onCreate(savedInstanceState: Bundle?)
@@ -23,12 +23,20 @@ class AddActivity(private val index: Int =-1) : AppCompatActivity()
         setContentView(binding.root)
         setupSave()
         setupSpinners()
-        if (index != -1) fillWithData()
+
+        val id: Int = (intent.extras?.get("id") ?: -1) as Int
+        if(id != -1) fillWithData(id)
+//        TODO: find better way to check it
     }
 
-    private fun fillWithData() {
-        val transaction = Shared.transactionList[index]
+    private fun fillWithData(id: Int) {
+        val transaction = Shared.transactionList[id]
         findViewById<EditText>(R.id.place).setText(transaction.place)
+        findViewById<EditText>(R.id.amount).setText(transaction.amount.toString())
+        findViewById<EditText>(R.id.date).setText(transaction.date.toString())
+//        findViewById<Spinner>(R.id.category).setSelection(transaction.date.toString())
+//        findViewById<Spinner>(R.id.transactionType).setText(transaction.date.toString())
+
     }
 
     private fun setupSpinners()

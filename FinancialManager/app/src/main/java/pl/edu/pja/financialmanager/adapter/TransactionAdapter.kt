@@ -30,8 +30,8 @@ class TransactionAdapter(initList: List<Transaction>) : RecyclerView.Adapter<Tra
             removeItem(holder.layoutPosition,parent)
         }
             binding.root.setOnClickListener{
-
-        }
+                parent.context.startActivity(Intent(parent.context, AddActivity::class.java).putExtra("id",holder.layoutPosition))
+            }
         }
 //        TODO: onClick 1:05:22 04.19
     }
@@ -43,12 +43,12 @@ class TransactionAdapter(initList: List<Transaction>) : RecyclerView.Adapter<Tra
         val builder = AlertDialog.Builder(parent.context)
         builder.setMessage("Are you sure you want to Delete?")
             .setCancelable(false)
-            .setPositiveButton("Yes") { dialog, id ->
+            .setPositiveButton("Yes") { _, _ ->
                 Shared.transactionList.removeAt(position)
                 notifyDataSetChanged()
 //                TODO: replace notifydatasetchanged with notifyItemChanged
             }
-            .setNegativeButton("No") { dialog, id ->
+            .setNegativeButton("No") { dialog, _ ->
                 dialog.dismiss()
             }
         val alert = builder.create()

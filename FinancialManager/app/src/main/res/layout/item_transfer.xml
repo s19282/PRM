@@ -24,6 +24,7 @@
             android:layout_marginBottom="8dp"
             android:background="#8F8D8D"
             android:fadingEdge="horizontal|vertical"
+            android:padding="5dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/guideline3"
             app:layout_constraintStart_toStartOf="parent"

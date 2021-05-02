@@ -2,6 +2,7 @@ package pl.edu.pja.financialmanager
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -27,6 +28,13 @@ class MainActivity : AppCompatActivity()
         supportActionBar?.title = "Recent transfers"
         setContentView(binding.root)
         setupTransactionList()
+//        binding.transactionList.setOnClickListener{
+//            it.setBackgroundColor(Color.MAGENTA)
+////            openEditActivity(it.id)
+//            println("--------------")
+//            println(it.id.toString())
+//            println("--------------")
+//        }
 
     }
 
@@ -37,12 +45,6 @@ class MainActivity : AppCompatActivity()
             layoutManager = LinearLayoutManager(context)
         }
     }
-
-//    override fun onResume() {
-//        super.onResume()
-//        transactionAdapter.list = Shared.transactionList
-//        updateSum()
-//    }
 
     private fun updateSum()
     {
@@ -63,14 +65,6 @@ class MainActivity : AppCompatActivity()
         startActivityForResult(
                 Intent(this, AddActivity::class.java),
                 REQUEST_ADD_TRANSFER
-        )
-    }
-
-    fun openEditActivity(view: View, index: Int)
-    {
-        startActivityForResult(
-            Intent(this, AddActivity(index)::class.java),
-            REQUEST_EDIT_TRANSFER
         )
     }
 
