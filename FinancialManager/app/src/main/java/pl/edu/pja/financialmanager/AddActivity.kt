@@ -62,26 +62,20 @@ class AddActivity : AppCompatActivity()
 
     }
 
-    private fun loadDrawables(): List<Drawable>
-    {
-        val drawableIds = listOf(
-                R.drawable.income,
-                R.drawable.outcome
-        )
-        return drawableIds.map { resources.getDrawable(it, theme) }
-    }
+
 
     private fun setupSave()
     {
         binding.saveButton.setOnClickListener {
-            val type = binding.transactionType.selectedItemId
+//            val type = binding.transactionType.selectedItemId
+//            val drawable: Drawable = loadDrawables()[type.toInt()]
             val transaction = Transaction(
                     binding.amount.text.toString().toDouble(),
                     binding.place.text.toString(),
                     LocalDate.parse(binding.date.text.toString()),
-                    binding.category.selectedItemId,
-                    type,
-                    if (type == 0L) loadDrawables()[0] else loadDrawables()[1]
+                    binding.category.selectedItemId.toInt(),
+                    binding.transactionType.selectedItemId.toInt()
+//                    drawable
             )
             Shared.transactionList.add(transaction)
             setResult(Activity.RESULT_OK)

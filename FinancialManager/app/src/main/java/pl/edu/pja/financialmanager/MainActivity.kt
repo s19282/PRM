@@ -52,11 +52,11 @@ class MainActivity : AppCompatActivity()
         var outSum = 0.0
         for(transaction in Shared.transactionList)
         {
-            if(transaction.type == 0L ) inSum += transaction.amount
+            if(transaction.type == 0 ) inSum += transaction.amount
             else outSum += transaction.amount
         }
-        findViewById<TextView>(R.id.incomesSum).setText(inSum.toString())
-        findViewById<TextView>(R.id.outcomesSum).setText(outSum.toString())
+        findViewById<TextView>(R.id.incomesSum).text = inSum.toString()
+        findViewById<TextView>(R.id.outcomesSum).text = outSum.toString()
 
     }
 

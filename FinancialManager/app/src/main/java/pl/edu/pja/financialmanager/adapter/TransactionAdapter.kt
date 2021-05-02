@@ -45,16 +45,13 @@ class TransactionAdapter(initList: List<Transaction>) : RecyclerView.Adapter<Tra
             .setCancelable(false)
             .setPositiveButton("Yes") { _, _ ->
                 Shared.transactionList.removeAt(position)
-                notifyDataSetChanged()
-//                TODO: replace notifydatasetchanged with notifyItemChanged
+                notifyItemChanged(position)
             }
             .setNegativeButton("No") { dialog, _ ->
                 dialog.dismiss()
             }
         val alert = builder.create()
         alert.show()
-//        Shared.transactionList.removeAt(position)
-//        notifyDataSetChanged()
         return true
     }
 
