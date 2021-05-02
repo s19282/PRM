@@ -13,9 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import pl.edu.pja.financialmanager.adapter.TransactionAdapter
 import pl.edu.pja.financialmanager.databinding.ActivityMainBinding
 
-private const val REQUEST_ADD_TRANSFER = 1
-private const val REQUEST_EDIT_TRANSFER = 2
-//TODO: check why it is used
+private const val REQUEST_ADD_TRANSFER = 1 //TODO: check why it is used
 
 class MainActivity : AppCompatActivity()
 {
@@ -28,14 +26,7 @@ class MainActivity : AppCompatActivity()
         supportActionBar?.title = "Recent transfers"
         setContentView(binding.root)
         setupTransactionList()
-//        binding.transactionList.setOnClickListener{
-//            it.setBackgroundColor(Color.MAGENTA)
-////            openEditActivity(it.id)
-//            println("--------------")
-//            println(it.id.toString())
-//            println("--------------")
-//        }
-
+        updateSum()
     }
 
     private fun setupTransactionList()
