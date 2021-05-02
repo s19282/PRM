@@ -68,6 +68,8 @@ class MainActivity : AppCompatActivity()
         )
     }
 
+
+
     fun openChartActivity(view: View)
     {
         startActivity(Intent(this,ChartActivity::class.java))

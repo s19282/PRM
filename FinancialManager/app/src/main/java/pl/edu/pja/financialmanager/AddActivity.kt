@@ -34,9 +34,8 @@ class AddActivity : AppCompatActivity()
         findViewById<EditText>(R.id.place).setText(transaction.place)
         findViewById<EditText>(R.id.amount).setText(transaction.amount.toString())
         findViewById<EditText>(R.id.date).setText(transaction.date.toString())
-//        findViewById<Spinner>(R.id.category).setSelection(transaction.date.toString())
-//        findViewById<Spinner>(R.id.transactionType).setText(transaction.date.toString())
-
+        findViewById<Spinner>(R.id.category).setSelection(transaction.category.toInt())
+        findViewById<Spinner>(R.id.transactionType).setSelection(transaction.type.toInt())
     }
 
     private fun setupSpinners()
@@ -80,7 +79,7 @@ class AddActivity : AppCompatActivity()
                     binding.amount.text.toString().toDouble(),
                     binding.place.text.toString(),
                     LocalDate.parse(binding.date.text.toString()),
-                    binding.category.selectedItem.toString(),
+                    binding.category.selectedItemId,
                     type,
                     if (type == 0L) loadDrawables()[0] else loadDrawables()[1]
             )

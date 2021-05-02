@@ -7,7 +7,7 @@ data class Transaction(
         val amount: Double,
         val place: String,
         val date: LocalDate,
-        val category: String,
+        val category: Long,
         val type: Long,
         val image: Drawable
 )
