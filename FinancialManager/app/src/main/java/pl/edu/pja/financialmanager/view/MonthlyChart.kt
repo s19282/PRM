@@ -58,20 +58,20 @@ class MonthlyChart(context: Context, attrs: AttributeSet) : View(context, attrs)
             drawLine(0f, scaledHeightOf0,width.toFloat()+100f, scaledHeightOf0, paint)
             val daysInMonth = Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_MONTH)
             var xTmp = width.toFloat() / daysInMonth
-            for (i in 1..daysInMonth)
+            for (i in daysInMonth downTo 1)
             {
                 drawText(i.toString().plus("\t"), xTmp, scaledHeightOf0 *1.05f, paint)
                 xTmp += width.toFloat() / daysInMonth
             }
 
-            val daysToShow = 30
+            val daysToShow = 31
             val dailyTransactions = Shared.transactionList.filter { it.date.isAfter(LocalDate.now().minusDays(daysToShow.toLong())) }.groupBy { it.date }
 
             balance = 0.0
             var previousY = scaledHeightOf0
             var previousX = 0f
             xTmp = width.toFloat() / daysInMonth
-            for (i in 0..daysToShow)
+            for (i in daysToShow downTo 0)
             {
                 val actualY = dailyTransactions[LocalDate.now().minusDays(i.toLong())]?.sumBy {
                     var tmp = 0.0
