@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity()
         }
     }
 
-    private fun updateSum()
+    fun updateSum()
     {
         var inSum = 0.0
         var outSum = 0.0

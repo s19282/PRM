@@ -46,6 +46,7 @@ class TransactionAdapter(initList: List<Transaction>, private val mainActivity: 
             .setCancelable(false)
             .setPositiveButton("Yes") { _, _ ->
                 Shared.transactionList.removeAt(position)
+                mainActivity.updateSum()
                 notifyItemRemoved(position)
             }
             .setNegativeButton("No") { dialog, _ ->
