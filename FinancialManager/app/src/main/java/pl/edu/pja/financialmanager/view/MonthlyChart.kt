@@ -1,4 +1,4 @@
-package pl.edu.pja.financialmanager
+package pl.edu.pja.financialmanager.view
 
 import android.content.Context
 import android.graphics.Canvas
@@ -7,6 +7,7 @@ import android.graphics.Paint
 import android.icu.util.Calendar
 import android.util.AttributeSet
 import android.view.View
+import pl.edu.pja.financialmanager.db.Shared
 import java.time.LocalDate
 import kotlin.math.absoluteValue
 
@@ -18,7 +19,7 @@ class MonthlyChart(context: Context, attrs: AttributeSet) : View(context, attrs)
         textSize = 60f
     }
     private val paint2 = Paint().apply {
-        color = Color.RED
+        color = Color.BLACK
         strokeWidth = 10f
         textSize = 60f
     }
@@ -43,8 +44,7 @@ class MonthlyChart(context: Context, attrs: AttributeSet) : View(context, attrs)
             val heightOf0 = if(maxValue>0 && minValue <0) maxValue/(maxValue+minValue.absoluteValue)
                             else if(maxValue<=0) 0.0
                             else 1.0
-//                            else if(minValue>=0) 1.0
-//                            else -1.0
+
             val scaledHeightOf0 = height.toFloat() * .1f + height.toFloat() * .8f * heightOf0.toFloat()
 
             drawLine(0f, scaledHeightOf0,width.toFloat()+100f, scaledHeightOf0, paint)
@@ -59,17 +59,7 @@ class MonthlyChart(context: Context, attrs: AttributeSet) : View(context, attrs)
             val daysToShow = 30
             val dailyTransactions = Shared.transactionList.filter { it.date.isAfter(LocalDate.now().minusDays(daysToShow.toLong())) }.groupBy { it.date }
 
-//                    .values.map {
-//                var tmp = 0.0
-//                it.forEach{ t->
-//                    tmp +=  if(t.type==0) t.amount
-//                    else t.amount*-1
-//                }
-//                tmp
-//            }
-
-
-
+//            var saldo = 0.0f
             var previousY = scaledHeightOf0
             var previousX = 0f
             xTmp = width.toFloat() / daysInMonth
@@ -81,7 +71,6 @@ class MonthlyChart(context: Context, attrs: AttributeSet) : View(context, attrs)
                     else it.amount*-1
                     tmp.toInt()
                 }?.toFloat()
-
                 if(actualY == null)
                 {
                     val actualX = previousX + xTmp
@@ -90,9 +79,13 @@ class MonthlyChart(context: Context, attrs: AttributeSet) : View(context, attrs)
                 }
                 else
                 {
+//                    saldo+=actualY
+//                    val tmp = ((maxValue-saldo)/ (maxValue-minValue)).toFloat()
                     val tmp = ((maxValue-actualY)/ (maxValue-minValue)).toFloat()
                     val scaledActualY = height.toFloat() * .1f + height.toFloat() * .8f * tmp
                     val actualX = previousX + xTmp
+                    if(scaledActualY<=scaledHeightOf0) paint2.color = Color.GREEN
+                    if(scaledActualY>scaledHeightOf0) paint2.color = Color.RED
                     drawLine(previousX,previousY,actualX,scaledActualY,paint2)
 
                     previousX = actualX

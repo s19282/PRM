@@ -1,15 +1,14 @@
-package pl.edu.pja.financialmanager
+package pl.edu.pja.financialmanager.activity
 
 import android.app.Activity
 import android.content.Intent
-import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.TextureView
 import android.view.View
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
+import pl.edu.pja.financialmanager.R
+import pl.edu.pja.financialmanager.db.Shared
 import pl.edu.pja.financialmanager.adapter.TransactionAdapter
 import pl.edu.pja.financialmanager.databinding.ActivityMainBinding
 
@@ -63,7 +62,7 @@ class MainActivity : AppCompatActivity()
 
     fun openChartActivity(view: View)
     {
-        startActivity(Intent(this,ChartActivity::class.java))
+        startActivity(Intent(this, ChartActivity::class.java))
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?)

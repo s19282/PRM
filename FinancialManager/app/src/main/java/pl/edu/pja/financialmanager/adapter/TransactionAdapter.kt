@@ -5,8 +5,8 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import pl.edu.pja.financialmanager.AddActivity
-import pl.edu.pja.financialmanager.Shared
+import pl.edu.pja.financialmanager.activity.AddActivity
+import pl.edu.pja.financialmanager.db.Shared
 import pl.edu.pja.financialmanager.databinding.ItemTransferBinding
 import pl.edu.pja.financialmanager.model.Transaction
 

@@ -5,9 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#8BC34A"
-    tools:context=".ChartActivity" >
+    tools:context=".activity.ChartActivity" >
 
-    <pl.edu.pja.financialmanager.Yaxis
+    <pl.edu.pja.financialmanager.view.Yaxis
         android:id="@+id/yaxis"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -35,7 +35,7 @@
             android:layout_height="match_parent"
             android:orientation="horizontal">
 
-            <pl.edu.pja.financialmanager.MonthlyChart
+            <pl.edu.pja.financialmanager.view.MonthlyChart
                 android:layout_width="1200dp"
                 android:layout_height="match_parent"
                 android:scrollIndicators="bottom"

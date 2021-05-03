@@ -9,9 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.FinancialManager">
-        <activity android:name=".ChartActivity"></activity>
-        <activity android:name=".AddActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".activity.ChartActivity"></activity>
+        <activity android:name=".activity.AddActivity" />
+        <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

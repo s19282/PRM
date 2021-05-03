@@ -1,14 +1,13 @@
-package pl.edu.pja.financialmanager
+package pl.edu.pja.financialmanager.activity
 
 import android.app.Activity
-import android.graphics.Color
-import android.graphics.drawable.Drawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Editable
 import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.Spinner
+import pl.edu.pja.financialmanager.R
+import pl.edu.pja.financialmanager.db.Shared
 import pl.edu.pja.financialmanager.databinding.ActivityAddBinding
 import pl.edu.pja.financialmanager.model.Transaction
 import java.time.LocalDate
