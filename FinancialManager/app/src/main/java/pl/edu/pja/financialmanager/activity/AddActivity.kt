@@ -1,6 +1,8 @@
 package pl.edu.pja.financialmanager.activity
 
 import android.app.Activity
+import android.app.AlertDialog
+import android.content.DialogInterface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ArrayAdapter
@@ -10,7 +12,9 @@ import pl.edu.pja.financialmanager.R
 import pl.edu.pja.financialmanager.db.Shared
 import pl.edu.pja.financialmanager.databinding.ActivityAddBinding
 import pl.edu.pja.financialmanager.model.Transaction
+import java.time.DateTimeException
 import java.time.LocalDate
+import java.time.format.DateTimeParseException
 
 class AddActivity : AppCompatActivity()
 {
@@ -61,6 +65,8 @@ class AddActivity : AppCompatActivity()
 
     private fun setupSave()
     {
+        binding.date.setText(LocalDate.now().toString())
+
         binding.saveButton.setOnClickListener {
             if(intent.hasExtra("id"))
             {
@@ -75,14 +81,25 @@ class AddActivity : AppCompatActivity()
             }
             else
             {
-                val transaction = Transaction(
-                        binding.amount.text.toString().toDouble(),
-                        binding.place.text.toString(),
-                        LocalDate.parse(binding.date.text.toString()),
-                        binding.category.selectedItemId.toInt(),
-                        binding.transactionType.selectedItemId.toInt()
-                )
-                Shared.transactionList.add(transaction)
+                try {
+                    val transaction = Transaction(
+                            binding.amount.text.toString().toDouble(),
+                            binding.place.text.toString(),
+                            LocalDate.parse(binding.date.text.toString()),
+                            binding.category.selectedItemId.toInt(),
+                            binding.transactionType.selectedItemId.toInt()
+                    )
+                    Shared.transactionList.add(transaction)
+                }
+                catch (e : DateTimeParseException)
+                {
+                    val builder = AlertDialog.Builder(this)
+                    builder.setMessage("Incorrect date format")
+
+                    builder.setPositiveButton("Ok"){ _, _-> }
+                    builder.show()
+                    return@setOnClickListener
+                }
             }
             setResult(Activity.RESULT_OK)
             finish()
