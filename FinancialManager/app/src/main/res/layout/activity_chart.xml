@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#8BC34A"
-    tools:context=".activity.ChartActivity" >
+    android:background="#4CAF50"
+    tools:context=".activity.ChartActivity">
 
     <pl.edu.pja.financialmanager.view.Yaxis
         android:id="@+id/yaxis"

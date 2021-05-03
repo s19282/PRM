@@ -17,6 +17,7 @@
         android:scrollbars="vertical"
         app:layout_constraintBottom_toTopOf="@+id/monthlyIncomes"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
         tools:itemCount="4"
         tools:layout_editor_absoluteX="0dp"
         tools:listitem="@layout/item_transfer" />
@@ -26,9 +27,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="24dp"
         android:text="Add new"
+        app:cornerRadius="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -38,10 +40,11 @@
         android:id="@+id/monthlyStats"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginEnd="8dp"
         android:onClick="openChartActivity"
         android:text="Show Monthly Stats"
+        app:cornerRadius="10dp"
         app:layout_constraintBaseline_toBaselineOf="@+id/addNew"
         app:layout_constraintEnd_toStartOf="@+id/addNew"
         app:layout_constraintHorizontal_bias="0.5"
@@ -52,10 +55,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginBottom="8dp"
         android:text="Monthly Incomes"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        app:layout_constraintBottom_toTopOf="@+id/monthlyOutcomes"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintBaseline_toBaselineOf="@+id/incomesSum"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
@@ -63,9 +65,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginBottom="23dp"
+        android:layout_marginBottom="16dp"
         android:text="Monthly Outcomes"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintBaseline_toBaselineOf="@+id/outcomesSum"
         app:layout_constraintBottom_toTopOf="@+id/monthlyStats"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -73,10 +76,10 @@
         android:id="@+id/incomesSum"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginBottom="16dp"
         android:text="0"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textColor="#37FF00"
         app:layout_constraintBottom_toTopOf="@+id/outcomesSum"
         app:layout_constraintStart_toStartOf="@+id/guideline5" />
@@ -85,10 +88,10 @@
         android:id="@+id/outcomesSum"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginBottom="23dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginBottom="16dp"
         android:text="0"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textColor="#FF0000"
         app:layout_constraintBottom_toTopOf="@+id/monthlyStats"
         app:layout_constraintStart_toStartOf="@+id/guideline5" />
@@ -98,5 +101,5 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent=".35" />
+        app:layout_constraintGuide_percent="0.5" />
 </androidx.constraintlayout.widget.ConstraintLayout>
