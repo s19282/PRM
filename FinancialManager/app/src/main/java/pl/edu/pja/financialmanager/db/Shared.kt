@@ -7,7 +7,7 @@ object Shared
 {
     val transactionList = mutableListOf(
             Transaction(2500.0,"Store", LocalDate.now().minusDays(30),0,0),
-            Transaction(500.0,"Cinema", LocalDate.now().minusDays(30),1,1),
+//            Transaction(500.0,"Cinema", LocalDate.now().minusDays(30),1,1),
 //            Transaction(600.0,"Car repair shop", LocalDate.now().minusDays(29),2,0),
 //            Transaction(800.0,"Taxes", LocalDate.now().minusDays(29),3,1),
 //            Transaction(600.0,"Food", LocalDate.now().minusDays(27),4,1),

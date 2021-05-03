@@ -20,7 +20,7 @@ class MonthlyChart(context: Context, attrs: AttributeSet) : View(context, attrs)
         textSize = 60f
     }
     private val paint2 = Paint().apply {
-        color = Color.BLACK
+        color = Color.GREEN
         strokeWidth = 10f
         textSize = 60f
     }
@@ -39,6 +39,8 @@ class MonthlyChart(context: Context, attrs: AttributeSet) : View(context, attrs)
                 }
                 tmp
             }
+
+            if(all.isEmpty()) return
 
             var minValue: Double = all[0]
             var maxValue: Double = all[0]
@@ -65,13 +67,13 @@ class MonthlyChart(context: Context, attrs: AttributeSet) : View(context, attrs)
                 xTmp += width.toFloat() / (daysInMonth+2)
             }
 
-            val daysToShow = 31
+            val daysToShow = 32
             val dailyTransactions = Shared.transactionList.filter { it.date.isAfter(LocalDate.now().minusDays(daysToShow.toLong())) }.groupBy { it.date }
 
             balance = 0.0
             var previousY = scaledHeightOf0
             var previousX = 0f
-            xTmp = width.toFloat() / daysInMonth
+            xTmp = width.toFloat() / (daysInMonth+1)
             for (i in daysToShow downTo 0)
             {
                 val actualY = dailyTransactions[LocalDate.now().minusDays(i.toLong())]?.sumBy {
@@ -89,11 +91,13 @@ class MonthlyChart(context: Context, attrs: AttributeSet) : View(context, attrs)
                 else
                 {
                     balance+=actualY
-                    val scaledActualY = height.toFloat() * .1f + height.toFloat() * .8f * ((maxValue-balance)/ (maxValue-minValue)).toFloat()
+                    var scaledActualY = height.toFloat() * .1f + height.toFloat() * .8f * (maxValue - balance).div(maxValue - minValue).toFloat()
+                    if(scaledActualY.isNaN()) scaledActualY = previousY
+
                     val actualX = previousX + xTmp
                     if(scaledActualY<=scaledHeightOf0) paint2.color = Color.GREEN
                     if(scaledActualY>scaledHeightOf0) paint2.color = Color.RED
-                    drawLine(previousX,previousY,actualX,scaledActualY,paint2)
+                    drawLine(previousX,previousY,actualX, scaledActualY,paint2)
 
                     previousX = actualX
                     previousY = scaledActualY

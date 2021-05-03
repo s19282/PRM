@@ -25,7 +25,6 @@ class Yaxis(context: Context, attrs: AttributeSet) : View(context, attrs)
         canvas ?: return
         with(canvas)
         {
-            drawLine(width.toFloat() * .2f, 0f,width.toFloat() * .2f, height.toFloat(), paint)
             val dailyTransactions = Shared.transactionList.groupBy { it.date }.values.map {
                 var tmp = 0.0
                 it.forEach{ t->
@@ -34,6 +33,10 @@ class Yaxis(context: Context, attrs: AttributeSet) : View(context, attrs)
                 }
                 tmp
             }
+            if(dailyTransactions.isEmpty()) return
+
+            drawLine(width.toFloat() * .2f, 0f,width.toFloat() * .2f, height.toFloat(), paint)
+
             var minValue: Double = dailyTransactions[0]
             var maxValue: Double = dailyTransactions[0]
             var balance = 0.0
