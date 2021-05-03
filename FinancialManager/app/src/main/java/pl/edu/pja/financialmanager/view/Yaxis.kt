@@ -8,6 +8,8 @@ import android.util.AttributeSet
 import android.view.View
 import pl.edu.pja.financialmanager.db.Shared
 import kotlin.math.absoluteValue
+import kotlin.math.max
+import kotlin.math.min
 
 class Yaxis(context: Context, attrs: AttributeSet) : View(context, attrs)
 {
@@ -32,9 +34,15 @@ class Yaxis(context: Context, attrs: AttributeSet) : View(context, attrs)
                 }
                 tmp
             }
+            var minValue: Double = dailyTransactions[0]
+            var maxValue: Double = dailyTransactions[0]
+            var balance = 0.0
 
-            val minValue: Double = dailyTransactions.minOf { it }
-            var maxValue: Double = dailyTransactions.maxOf { it }
+            dailyTransactions.forEach {
+                balance+=it
+                if (balance>maxValue) maxValue = balance
+                if (balance<minValue) minValue = balance
+            }
             val set = 15
             var startY = height.toFloat() * .1f
             val step = height.toFloat() * .8f / set

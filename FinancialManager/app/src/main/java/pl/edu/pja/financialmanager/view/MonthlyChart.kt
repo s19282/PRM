@@ -25,11 +25,6 @@ class MonthlyChart(context: Context, attrs: AttributeSet) : View(context, attrs)
         textSize = 60f
     }
 
-//    override fun onFocusChanged(gainFocus: Boolean, direction: Int, previouslyFocusedRect: Rect?) {
-//        super.onFocusChanged(gainFocus, direction, previouslyFocusedRect)
-////        onDraw()
-//    }
-
     override fun onDraw(canvas: Canvas?)
     {
         super.onDraw(canvas)
@@ -45,8 +40,15 @@ class MonthlyChart(context: Context, attrs: AttributeSet) : View(context, attrs)
                 tmp
             }
 
-            val minValue: Double = all.minOf { it }
-            val maxValue: Double = all.maxOf { it }
+            var minValue: Double = all[0]
+            var maxValue: Double = all[0]
+            var balance = 0.0
+
+            all.forEach {
+                balance+=it
+                if (balance>maxValue) maxValue = balance
+                if (balance<minValue) minValue = balance
+            }
             val heightOf0 = if(maxValue>0 && minValue <0) maxValue/(maxValue+minValue.absoluteValue)
                             else if(maxValue<=0) 0.0
                             else 1.0
@@ -65,7 +67,7 @@ class MonthlyChart(context: Context, attrs: AttributeSet) : View(context, attrs)
             val daysToShow = 30
             val dailyTransactions = Shared.transactionList.filter { it.date.isAfter(LocalDate.now().minusDays(daysToShow.toLong())) }.groupBy { it.date }
 
-//            var saldo = 0.0f
+            balance = 0.0
             var previousY = scaledHeightOf0
             var previousX = 0f
             xTmp = width.toFloat() / daysInMonth
@@ -85,10 +87,8 @@ class MonthlyChart(context: Context, attrs: AttributeSet) : View(context, attrs)
                 }
                 else
                 {
-//                    saldo+=actualY
-//                    val tmp = ((maxValue-saldo)/ (maxValue-minValue)).toFloat()
-                    val tmp = ((maxValue-actualY)/ (maxValue-minValue)).toFloat()
-                    val scaledActualY = height.toFloat() * .1f + height.toFloat() * .8f * tmp
+                    balance+=actualY
+                    val scaledActualY = height.toFloat() * .1f + height.toFloat() * .8f * ((maxValue-balance)/ (maxValue-minValue)).toFloat()
                     val actualX = previousX + xTmp
                     if(scaledActualY<=scaledHeightOf0) paint2.color = Color.GREEN
                     if(scaledActualY>scaledHeightOf0) paint2.color = Color.RED

@@ -66,7 +66,7 @@ class AddActivity : AppCompatActivity()
     private fun setupSave()
     {
         binding.date.setText(LocalDate.now().toString())
-
+//        NumberFormatException
         binding.saveButton.setOnClickListener {
             if(intent.hasExtra("id"))
             {
