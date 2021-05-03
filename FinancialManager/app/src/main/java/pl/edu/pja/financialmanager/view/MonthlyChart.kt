@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.Rect
 import android.icu.util.Calendar
 import android.util.AttributeSet
 import android.view.View
@@ -23,6 +24,11 @@ class MonthlyChart(context: Context, attrs: AttributeSet) : View(context, attrs)
         strokeWidth = 10f
         textSize = 60f
     }
+
+//    override fun onFocusChanged(gainFocus: Boolean, direction: Int, previouslyFocusedRect: Rect?) {
+//        super.onFocusChanged(gainFocus, direction, previouslyFocusedRect)
+////        onDraw()
+//    }
 
     override fun onDraw(canvas: Canvas?)
     {
@@ -94,4 +100,6 @@ class MonthlyChart(context: Context, attrs: AttributeSet) : View(context, attrs)
             }
         }
     }
+
+
 }

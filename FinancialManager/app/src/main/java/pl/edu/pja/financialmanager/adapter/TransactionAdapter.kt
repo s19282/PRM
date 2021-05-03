@@ -6,11 +6,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import pl.edu.pja.financialmanager.activity.AddActivity
+import pl.edu.pja.financialmanager.activity.MainActivity
 import pl.edu.pja.financialmanager.db.Shared
 import pl.edu.pja.financialmanager.databinding.ItemTransferBinding
 import pl.edu.pja.financialmanager.model.Transaction
 
-class TransactionAdapter(initList: List<Transaction>) : RecyclerView.Adapter<TransactionViewHolder>()
+class TransactionAdapter(initList: List<Transaction>, private val mainActivity: MainActivity) : RecyclerView.Adapter<TransactionViewHolder>()
 {
     var list: List<Transaction> = initList
         set(value)
@@ -26,14 +27,15 @@ class TransactionAdapter(initList: List<Transaction>) : RecyclerView.Adapter<Tra
                 false
         )
         return TransactionViewHolder(binding).also { holder ->
-            binding.root.setOnLongClickListener{
-            removeItem(holder.layoutPosition,parent)
+            binding.root.setOnLongClickListener{ removeItem(holder.layoutPosition,parent) }
+            binding.root.setOnClickListener{ editItem(holder.layoutPosition) }
         }
-            binding.root.setOnClickListener{
-                parent.context.startActivity(Intent(parent.context, AddActivity::class.java).putExtra("id",holder.layoutPosition))
-            }
-        }
-//        TODO: onClick 1:05:22 04.19
+    }
+
+    private fun editItem(id: Int)
+    {
+        mainActivity.openEditActivity(id)
+        notifyItemChanged(id)
     }
 
 
@@ -46,6 +48,7 @@ class TransactionAdapter(initList: List<Transaction>) : RecyclerView.Adapter<Tra
             .setPositiveButton("Yes") { _, _ ->
                 Shared.transactionList.removeAt(position)
                 notifyItemChanged(position)
+
             }
             .setNegativeButton("No") { dialog, _ ->
                 dialog.dismiss()

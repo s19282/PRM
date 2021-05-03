@@ -13,17 +13,19 @@ import pl.edu.pja.financialmanager.adapter.TransactionAdapter
 import pl.edu.pja.financialmanager.databinding.ActivityMainBinding
 
 private const val REQUEST_ADD_TRANSFER = 1 //TODO: check why it is used
+private const val REQUEST_EDIT_TRANSFER = 2
 
 class MainActivity : AppCompatActivity()
 {
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater)}
-    private val transactionAdapter by lazy { TransactionAdapter(Shared.transactionList) }
+    private val transactionAdapter by lazy { TransactionAdapter(Shared.transactionList, this) }
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
         supportActionBar?.title = "Recent transfers"
         setContentView(binding.root)
+        binding.addNew.setOnClickListener( openAddActivity() )
         setupTransactionList()
         updateSum()
     }
@@ -50,15 +52,21 @@ class MainActivity : AppCompatActivity()
 
     }
 
-    fun openAddActivity(view: View)
+    private fun openAddActivity(): View.OnClickListener
     {
-        startActivityForResult(
+        return View.OnClickListener {
+            startActivityForResult(
                 Intent(this, AddActivity::class.java),
                 REQUEST_ADD_TRANSFER
+        ) }
+    }
+    fun openEditActivity( id: Int)
+    {
+        startActivityForResult(
+                Intent(this, AddActivity::class.java).putExtra("id",id),
+                REQUEST_EDIT_TRANSFER
         )
     }
-
-
 
     fun openChartActivity(view: View)
     {
@@ -67,12 +75,18 @@ class MainActivity : AppCompatActivity()
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?)
     {
+        super.onActivityResult(requestCode, resultCode, data)
         if(requestCode == REQUEST_ADD_TRANSFER && resultCode == Activity.RESULT_OK)
         {
             transactionAdapter.list = Shared.transactionList
             updateSum()
         }
-        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode == REQUEST_EDIT_TRANSFER && resultCode == Activity.RESULT_OK)
+        {
+            transactionAdapter.list = Shared.transactionList
+            updateSum()
+        }
+
     }
 
 }
