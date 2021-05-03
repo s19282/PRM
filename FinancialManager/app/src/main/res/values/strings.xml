@@ -1,8 +1,9 @@
 <resources>
     <string name="app_name">Financial Manager</string>
-    <string name="save">Save</string>
     <string name="amount">Amount</string>
     <string name="place">Place</string>
     <string name="date">Date</string>
     <string name="category">Category</string>
+    <string name="monthly_incomes">Monthly Incomes</string>
+    <string name="monthly_outcomes">Monthly Outcomes</string>
 </resources>

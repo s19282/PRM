@@ -2,7 +2,7 @@
     <!-- Base application theme. -->
     <style name="Theme.FinancialManager" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">#E162D11D</item>
+        <item name="colorPrimary">#E10E8A55</item>
         <item name="colorPrimaryVariant">#109E17</item>
         <item name="colorOnPrimary">@color/black</item>
         <!-- Secondary brand color. -->
