@@ -11,6 +11,7 @@ import pl.edu.pja.financialmanager.R
 import pl.edu.pja.financialmanager.db.Shared
 import pl.edu.pja.financialmanager.adapter.TransactionAdapter
 import pl.edu.pja.financialmanager.databinding.ActivityMainBinding
+import java.time.LocalDate
 
 private const val REQUEST_ADD_TRANSFER = 1 //TODO: check why it is used
 private const val REQUEST_EDIT_TRANSFER = 2
@@ -42,7 +43,7 @@ class MainActivity : AppCompatActivity()
     {
         var inSum = 0.0
         var outSum = 0.0
-        for(transaction in Shared.transactionList)
+        for(transaction in Shared.transactionList.filter { it.date.month.equals(LocalDate.now().month) && it.date.year == LocalDate.now().year })
         {
             if(transaction.type == 0 ) inSum += transaction.amount
             else outSum += transaction.amount
