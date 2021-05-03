@@ -58,11 +58,11 @@ class MonthlyChart(context: Context, attrs: AttributeSet) : View(context, attrs)
             drawLine(0f, scaledHeightOf0,width.toFloat(), scaledHeightOf0, paint)
             val daysInMonth = 31
 //            val daysInMonth = Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_MONTH)
-            var xTmp = width.toFloat() / (daysInMonth+1)
-            for (i in daysInMonth downTo 0)
+            var xTmp = width.toFloat() / (daysInMonth+2)
+            for (i in daysInMonth downTo -1)
             {
                 drawText(i.toString().plus("\t"), xTmp, scaledHeightOf0 *1.05f, paint)
-                xTmp += width.toFloat() / (daysInMonth+1)
+                xTmp += width.toFloat() / (daysInMonth+2)
             }
 
             val daysToShow = 31
