@@ -80,13 +80,24 @@ class MonthlyChart(context: Context, attrs: AttributeSet) : View(context, attrs)
                     tmp +=  if(it.type==0) it.amount
                     else it.amount*-1
                     tmp.toInt()
-                }?.toFloat() ?: previousY
-                val scaledActualY =(maxValue-actualY/ (maxValue-minValue)).toFloat()
-                val actualX = previousX + xTmp
-                drawLine(previousX,previousY,actualX,scaledActualY,paint2)
+                }?.toFloat()
 
-                previousX = actualX
-                previousY = scaledActualY
+                if(actualY == null)
+                {
+                    val actualX = previousX + xTmp
+                    drawLine(previousX,previousY,actualX,previousY,paint2)
+                    previousX = actualX
+                }
+                else
+                {
+                    val tmp = ((maxValue-actualY)/ (maxValue-minValue)).toFloat()
+                    val scaledActualY = height.toFloat() * .1f + height.toFloat() * .8f * tmp
+                    val actualX = previousX + xTmp
+                    drawLine(previousX,previousY,actualX,scaledActualY,paint2)
+
+                    previousX = actualX
+                    previousY = scaledActualY
+                }
             }
         }
     }
