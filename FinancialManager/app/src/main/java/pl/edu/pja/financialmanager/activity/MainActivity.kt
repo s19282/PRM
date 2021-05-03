@@ -86,7 +86,6 @@ class MainActivity : AppCompatActivity()
             transactionAdapter.list = Shared.transactionList
             updateSum()
         }
-
     }
 
 }

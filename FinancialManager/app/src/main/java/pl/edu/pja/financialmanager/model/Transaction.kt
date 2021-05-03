@@ -4,10 +4,10 @@ import android.graphics.drawable.Drawable
 import java.time.LocalDate
 
 data class Transaction(
-        val amount: Double,
-        val place: String,
-        val date: LocalDate,
-        val category: Int,
-        val type: Int,
+        var amount: Double,
+        var place: String,
+        var date: LocalDate,
+        var category: Int,
+        var type: Int,
 //        val image: Drawable
 )

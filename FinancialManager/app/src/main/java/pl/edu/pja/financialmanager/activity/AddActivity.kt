@@ -23,9 +23,7 @@ class AddActivity : AppCompatActivity()
         setupSave()
         setupSpinners()
 
-        val id: Int = (intent.extras?.get("id") ?: -1) as Int
-        if(id != -1) fillWithData(id)
-//        TODO: find better way to check it
+        if(intent.hasExtra("id"))   fillWithData(intent.extras?.get("id") as Int)
     }
 
     private fun fillWithData(id: Int) {
@@ -33,8 +31,8 @@ class AddActivity : AppCompatActivity()
         findViewById<EditText>(R.id.place).setText(transaction.place)
         findViewById<EditText>(R.id.amount).setText(transaction.amount.toString())
         findViewById<EditText>(R.id.date).setText(transaction.date.toString())
-        findViewById<Spinner>(R.id.category).setSelection(transaction.category.toInt())
-        findViewById<Spinner>(R.id.transactionType).setSelection(transaction.type.toInt())
+        findViewById<Spinner>(R.id.category).setSelection(transaction.category)
+        findViewById<Spinner>(R.id.transactionType).setSelection(transaction.type)
     }
 
     private fun setupSpinners()
@@ -61,22 +59,31 @@ class AddActivity : AppCompatActivity()
 
     }
 
-
-
     private fun setupSave()
     {
         binding.saveButton.setOnClickListener {
-//            val type = binding.transactionType.selectedItemId
-//            val drawable: Drawable = loadDrawables()[type.toInt()]
-            val transaction = Transaction(
-                    binding.amount.text.toString().toDouble(),
-                    binding.place.text.toString(),
-                    LocalDate.parse(binding.date.text.toString()),
-                    binding.category.selectedItemId.toInt(),
-                    binding.transactionType.selectedItemId.toInt()
-//                    drawable
-            )
-            Shared.transactionList.add(transaction)
+            if(intent.hasExtra("id"))
+            {
+                val transaction = Shared.transactionList.get(intent.extras?.get("id") as Int)
+                transaction.apply {
+                    amount = binding.amount.text.toString().toDouble()
+                    place = binding.place.text.toString()
+                    date = LocalDate.parse(binding.date.text.toString())
+                    category = binding.category.selectedItemId.toInt()
+                    type = binding.transactionType.selectedItemId.toInt()
+                }
+            }
+            else
+            {
+                val transaction = Transaction(
+                        binding.amount.text.toString().toDouble(),
+                        binding.place.text.toString(),
+                        LocalDate.parse(binding.date.text.toString()),
+                        binding.category.selectedItemId.toInt(),
+                        binding.transactionType.selectedItemId.toInt()
+                )
+                Shared.transactionList.add(transaction)
+            }
             setResult(Activity.RESULT_OK)
             finish()
         }

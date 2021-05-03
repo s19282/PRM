@@ -41,14 +41,12 @@ class TransactionAdapter(initList: List<Transaction>, private val mainActivity: 
 
     private fun removeItem(position: Int, parent: ViewGroup): Boolean
     {
-//        TODO: check once more
         val builder = AlertDialog.Builder(parent.context)
         builder.setMessage("Are you sure you want to Delete?")
             .setCancelable(false)
             .setPositiveButton("Yes") { _, _ ->
                 Shared.transactionList.removeAt(position)
-                notifyItemChanged(position)
-
+                notifyItemRemoved(position)
             }
             .setNegativeButton("No") { dialog, _ ->
                 dialog.dismiss()
