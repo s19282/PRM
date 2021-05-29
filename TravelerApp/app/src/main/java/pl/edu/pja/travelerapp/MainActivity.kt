@@ -75,13 +75,25 @@ class MainActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if(requestCode == CAMERA_INTENT_REQUEST && resultCode == RESULT_OK)
         {
-            val bitmap = ImageDecoder.decodeBitmap(ImageDecoder.createSource(this.contentResolver, uri)).copy(Bitmap.Config.ARGB_8888,true)
+            val bitmap = ImageDecoder.decodeBitmap(ImageDecoder.createSource(this.contentResolver, uri))
+                .copy(Bitmap.Config.ARGB_8888,true)
+                .drawText()
+
+            saveImage(bitmap)
 
             binding.imageView2.setImageBitmap(
-                bitmap.drawText()
+                bitmap
             )
         }
         super.onActivityResult(requestCode, resultCode, data)
+    }
+
+    private fun saveImage(bitmap: Bitmap?) {
+        if (bitmap != null) {
+            contentResolver.openOutputStream(uri).use {
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, it)
+            }
+        }
     }
 
     private fun Bitmap.drawText(
