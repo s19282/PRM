@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import pl.edu.pja.traveler.database.AppDatabase
 import pl.edu.pja.traveler.databinding.ActivityMainBinding
 
 private const val REQUEST_CAMERA_TRANSFER = 1
@@ -17,6 +18,7 @@ class MainActivity : AppCompatActivity()
         supportActionBar?.title = "Your photos"
         setContentView(binding.root)
         binding.cameraButton.setOnClickListener(openCameraActivity())
+        Shared.db = AppDatabase.open(applicationContext)
     }
 
     private fun openCameraActivity() : View.OnClickListener
