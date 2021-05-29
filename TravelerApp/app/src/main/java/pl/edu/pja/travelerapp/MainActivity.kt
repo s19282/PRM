@@ -11,6 +11,7 @@ import android.os.Environment
 import android.provider.MediaStore
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
+import pl.edu.pja.travelerapp.database.AppDatabase
 import pl.edu.pja.travelerapp.databinding.ActivityMainBinding
 import java.io.File
 import java.time.LocalDate
@@ -33,6 +34,7 @@ class MainActivity : AppCompatActivity() {
             intent.putExtra(MediaStore.EXTRA_OUTPUT,uri)
 
             startActivityForResult(intent, CAMERA_INTENT_REQUEST)
+            Shared.db = AppDatabase.open(applicationContext)
         }
     }
 
