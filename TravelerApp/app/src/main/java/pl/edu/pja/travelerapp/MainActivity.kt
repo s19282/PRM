@@ -23,6 +23,7 @@ const val CAMERA_INTENT_REQUEST = 2
 const val DESCRIPTION_INTENT_REQUEST = 3
 class MainActivity : AppCompatActivity() {
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
+    private val pictureAdapter by lazy {  }
     private var uri = Uri.EMPTY
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -143,5 +144,9 @@ class MainActivity : AppCompatActivity() {
         }
 
         return bitmap
+    }
+
+    fun openShowPictureActivity(id: Int) {
+//        startActivityForResult(intent, )
     }
 }
