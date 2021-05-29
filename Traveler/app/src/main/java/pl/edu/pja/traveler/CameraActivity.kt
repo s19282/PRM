@@ -3,10 +3,12 @@ package pl.edu.pja.traveler
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.Manifest
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -70,7 +72,7 @@ class CameraActivity : AppCompatActivity() {
                 }
 
                 override fun onImageSaved(output: ImageCapture.OutputFileResults) {
-
+                    openNoteActivity()
 //                    val savedUri = Uri.fromFile(photoFile)
 //                    val msg = "Photo capture succeeded: $savedUri"
 //                    Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
@@ -79,6 +81,15 @@ class CameraActivity : AppCompatActivity() {
             })
     }
 
+    private fun openNoteActivity() : View.OnClickListener
+    {
+        println("testestsetes")
+        return View.OnClickListener {
+            startActivityForResult(
+                Intent(this, NoteActivity::class.java),
+                2
+            ) }
+    }
 
     private fun startCamera() {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
