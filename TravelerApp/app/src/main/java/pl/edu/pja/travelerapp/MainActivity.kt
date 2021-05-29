@@ -1,4 +1,4 @@
-package pl.edu.pja.traveler
+package pl.edu.pja.travelerapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
