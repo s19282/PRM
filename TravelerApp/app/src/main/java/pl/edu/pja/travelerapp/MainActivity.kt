@@ -7,20 +7,20 @@ import android.icu.text.SimpleDateFormat
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.os.Environment
 import android.provider.MediaStore
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.net.toUri
 import pl.edu.pja.travelerapp.database.AppDatabase
 import pl.edu.pja.travelerapp.databinding.ActivityMainBinding
-import java.io.File
+import pl.edu.pja.travelerapp.model.NoteDTO
 import java.time.LocalDate
-import java.time.LocalTime
 import java.util.*
-
+import java.util.concurrent.Executors
+import kotlinx.coroutines.*
+import kotlin.concurrent.thread
 
 const val CAMERA_PERMISSIONS_REQUEST = 1
 const val CAMERA_INTENT_REQUEST = 2
+const val DESCRIPTION_INTENT_REQUEST = 3
 class MainActivity : AppCompatActivity() {
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
     private var uri = Uri.EMPTY
@@ -28,13 +28,13 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+        Shared.db = AppDatabase.open(applicationContext)
         binding.openCamera.setOnClickListener{
             generateURI()
             val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
             intent.putExtra(MediaStore.EXTRA_OUTPUT,uri)
 
             startActivityForResult(intent, CAMERA_INTENT_REQUEST)
-            Shared.db = AppDatabase.open(applicationContext)
         }
     }
 
@@ -86,9 +86,36 @@ class MainActivity : AppCompatActivity() {
             binding.imageView2.setImageBitmap(
                 bitmap
             )
+
+            startActivityForResult(Intent(this,DescriptionActivity::class.java)
+                .putExtra("name",uri.toString()),
+                DESCRIPTION_INTENT_REQUEST
+            )
+
+        }
+        println("main")
+        if(requestCode == DESCRIPTION_INTENT_REQUEST && resultCode == RESULT_OK && data != null)
+        {
+            val description = data.getStringExtra("note")
+//            TODO: something
+            val note = NoteDTO(
+                note = description.orEmpty(),
+                imageName = uri.toString(),
+                city = "notImplemented",
+                country = "notImplemented"
+            )
+//            saveToDb(note)
+            thread {
+                Shared.db?.note?.insert(note)
+            }
         }
         super.onActivityResult(requestCode, resultCode, data)
     }
+//    private fun saveToDb(noteDTO: NoteDTO) = runBlocking {
+//        launch {
+//            Shared.db?.note?.insert(noteDTO)
+//        }
+//    }
 
     private fun saveImage(bitmap: Bitmap?) {
         if (bitmap != null) {
