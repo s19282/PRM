@@ -16,4 +16,13 @@ interface NoteDao
 
     @Query("SELECT * FROM Note where imageName = :imageName;")
     fun selectByImageName(imageName: String): List<NoteDTO>
+
+    @Query("DELETE FROM Note WHERE id = :id")
+    fun delete(id: Long)
+
+    @Query("UPDATE Note SET note = :note WHERE id = :id")
+    fun update(id: Long, note: String)
+
+    @Query("SELECT * FROM Note WHERE id = :id")
+    fun getById(id: Long) : NoteDTO
 }

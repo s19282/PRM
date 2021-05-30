@@ -8,7 +8,10 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
+import android.widget.GridLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.net.toUri
+import androidx.recyclerview.widget.GridLayoutManager
 import pl.edu.pja.travelerapp.database.AppDatabase
 import pl.edu.pja.travelerapp.databinding.ActivityMainBinding
 import pl.edu.pja.travelerapp.model.NoteDTO
@@ -16,6 +19,8 @@ import java.time.LocalDate
 import java.util.*
 import java.util.concurrent.Executors
 import kotlinx.coroutines.*
+import pl.edu.pja.travelerapp.adapter.PictureAdapter
+import pl.edu.pja.travelerapp.model.Picture_
 import kotlin.concurrent.thread
 
 const val CAMERA_PERMISSIONS_REQUEST = 1
@@ -23,7 +28,7 @@ const val CAMERA_INTENT_REQUEST = 2
 const val DESCRIPTION_INTENT_REQUEST = 3
 class MainActivity : AppCompatActivity() {
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
-    private val pictureAdapter by lazy {  }
+    private val pictureAdapter by lazy { PictureAdapter(this) }
     private var uri = Uri.EMPTY
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,6 +42,7 @@ class MainActivity : AppCompatActivity() {
 
             startActivityForResult(intent, CAMERA_INTENT_REQUEST)
         }
+        showPhotos()
     }
 
 
@@ -83,18 +89,9 @@ class MainActivity : AppCompatActivity() {
                 .drawText()
 
             saveImage(bitmap)
-
-            binding.imageView2.setImageBitmap(
-                bitmap
-            )
-
-            startActivityForResult(Intent(this,DescriptionActivity::class.java)
-                .putExtra("name",uri.toString()),
-                DESCRIPTION_INTENT_REQUEST
-            )
-
+            showPhotos()
+            openDescriptionActivity()
         }
-        println("main")
         if(requestCode == DESCRIPTION_INTENT_REQUEST && resultCode == RESULT_OK && data != null)
         {
             val description = data.getStringExtra("note")
@@ -111,6 +108,37 @@ class MainActivity : AppCompatActivity() {
             }
         }
         super.onActivityResult(requestCode, resultCode, data)
+    }
+
+    private fun showPhotos()
+    {
+        binding.photosList.adapter = pictureAdapter
+    }
+
+    override fun onResume() {
+        super.onResume()
+        thread {
+            Shared.db?.note?.selectAll()?.let { it ->
+                val list = it.map {
+                    val image = ImageDecoder.decodeBitmap(ImageDecoder.createSource(this.contentResolver, it.imageName.toUri()))
+                    Picture_(
+                        it.id,
+                        it.note,
+                        it.imageName,
+                        image
+                    )
+                }
+                pictureAdapter.pictures = list.toMutableList()
+            }
+        }
+    }
+
+    private fun openDescriptionActivity() {
+        startActivityForResult(
+            Intent(this, DescriptionActivity::class.java)
+                .putExtra("name", uri.toString()),
+            DESCRIPTION_INTENT_REQUEST
+        )
     }
 //    private fun saveToDb(noteDTO: NoteDTO) = runBlocking {
 //        launch {
