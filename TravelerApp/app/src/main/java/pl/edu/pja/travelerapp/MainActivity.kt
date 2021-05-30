@@ -1,14 +1,19 @@
 package pl.edu.pja.travelerapp
 
+import android.Manifest
 import android.content.ContentValues
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.*
 import android.icu.text.SimpleDateFormat
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import pl.edu.pja.travelerapp.database.AppDatabase
 import pl.edu.pja.travelerapp.databinding.ActivityMainBinding
@@ -23,6 +28,7 @@ const val CAMERA_PERMISSIONS_REQUEST = 1
 const val CAMERA_INTENT_REQUEST = 2
 const val DESCRIPTION_INTENT_REQUEST = 3
 const val SHOW_PICTURE_INTENT_REQUEST = 3
+
 class MainActivity : AppCompatActivity() {
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
     private val pictureAdapter by lazy { PictureAdapter(this) }
@@ -33,11 +39,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         Shared.db = AppDatabase.open(applicationContext)
         binding.openCamera.setOnClickListener{
-            generateURI()
-            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            intent.putExtra(MediaStore.EXTRA_OUTPUT,uri)
-
-            startActivityForResult(intent, CAMERA_INTENT_REQUEST)
+          startCamera()
         }
         showPhotos()
     }
@@ -62,21 +64,21 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-//    override fun onRequestPermissionsResult(
-//        requestCode: Int, permissions: Array<String>, grantResults:
-//        IntArray) {
-//        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-//        if (requestCode == REQUEST_CODE_PERMISSIONS) {
-//            if (allPermissionsGranted()) {
-//                startCamera()
-//            } else {
-//                Toast.makeText(this,
-//                    "Permissions not granted by the user.",
-//                    Toast.LENGTH_SHORT).show()
-//                finish()
-//            }
-//        }
-//    }
+    private fun startCamera() {
+        if(ContextCompat.checkSelfPermission(applicationContext,Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)
+        {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), CAMERA_PERMISSIONS_REQUEST)
+        }
+        else
+        {
+            generateURI()
+            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            intent.putExtra(MediaStore.EXTRA_OUTPUT,uri)
+
+            startActivityForResult(intent, CAMERA_INTENT_REQUEST)
+        }
+    }
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if(requestCode == CAMERA_INTENT_REQUEST && resultCode == RESULT_OK)
