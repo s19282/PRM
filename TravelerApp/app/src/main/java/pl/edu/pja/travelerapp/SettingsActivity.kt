@@ -23,6 +23,10 @@ class SettingsActivity : AppCompatActivity() {
                 {
                     putExtra("radius",binding.radius.text.toString().toInt())
                 }
+                else
+                {
+                    putExtra("radius",1)
+                }
             }
             println(binding.colorSpinner.selectedItem.toString())
             println(binding.textSizeSpinner.selectedItem.toString())
