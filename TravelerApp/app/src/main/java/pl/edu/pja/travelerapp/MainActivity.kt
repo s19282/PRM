@@ -8,17 +8,13 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
-import android.widget.GridLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
-import androidx.recyclerview.widget.GridLayoutManager
 import pl.edu.pja.travelerapp.database.AppDatabase
 import pl.edu.pja.travelerapp.databinding.ActivityMainBinding
 import pl.edu.pja.travelerapp.model.NoteDTO
 import java.time.LocalDate
 import java.util.*
-import java.util.concurrent.Executors
-import kotlinx.coroutines.*
 import pl.edu.pja.travelerapp.adapter.PictureAdapter
 import pl.edu.pja.travelerapp.model.Picture_
 import kotlin.concurrent.thread
@@ -26,6 +22,7 @@ import kotlin.concurrent.thread
 const val CAMERA_PERMISSIONS_REQUEST = 1
 const val CAMERA_INTENT_REQUEST = 2
 const val DESCRIPTION_INTENT_REQUEST = 3
+const val SHOW_PICTURE_INTENT_REQUEST = 3
 class MainActivity : AppCompatActivity() {
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
     private val pictureAdapter by lazy { PictureAdapter(this) }
@@ -174,7 +171,11 @@ class MainActivity : AppCompatActivity() {
         return bitmap
     }
 
-    fun openShowPictureActivity(id: Int) {
-//        startActivityForResult(intent, )
+    fun openShowPictureActivity(id: Long) {
+        startActivityForResult(
+            Intent(this, ShowPictureActivity::class.java)
+                .putExtra("id",id),
+                SHOW_PICTURE_INTENT_REQUEST
+        )
     }
 }

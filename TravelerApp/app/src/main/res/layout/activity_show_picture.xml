@@ -4,6 +4,43 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ShowPicture">
+    android:background="#FFEB3B"
+    tools:context=".ShowPictureActivity">
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="#4CAF50"
+        app:layout_constraintBottom_toTopOf="@+id/textView2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="0dp"
+        android:layout_height="150dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="#61CBFB"
+        android:editable="false"
+        android:enabled="false"
+        android:inputType="textMultiLine"
+        android:scrollIndicators="right"
+        android:scrollbars="vertical"
+        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec lobortis facilisis porta. Maecenas lacinia interdum turpis eu iaculis. Quisque gravida aliquet sapien, vel ultrices neque. Fusce tempor dui mattis, placerat sem quis, maximus quam. Praesent non erat volutpat orci dapibus sagittis. Suspendisse molestie, urna sed vulputate condimentum, metus sapien cursus elit, non euismod urna purus vitae orci. Nullam pharetra lacus vel dolor finibus imperdiet. Donec quis tortor ut quam ullamcorper mattis in eget nunc. Praesent venenatis quis quam in interdum. Nullam turpis lectus, sodales id pharetra a, faucibus non mi. Vestibulum sollicitudin velit interdum lorem consectetur ultricies. Cras quis cursus elit. Fusce mi nisi, dignissim accumsan lorem ac, tempor fermentum ipsum. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Duis a nisl hendrerit lacus aliquam congue a ac dolor. Praesent et magna sed eros pharetra viverra eget vitae velit. Maecenas nec nunc a est sollicitudin congue. Nam vitae venenatis arcu, sed tempor arcu. Interdum et malesuada fames ac ante ipsum primis in faucibus. Etiam ut lectus dapibus, ultricies turpis vitae, volutpat orci. Etiam dapibus, arcu id vestibulum interdum, lorem dolor pharetra ipsum, porttitor tempus purus nisi ut metus. Nunc egestas tortor euismod nisi suscipit scelerisque. "
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

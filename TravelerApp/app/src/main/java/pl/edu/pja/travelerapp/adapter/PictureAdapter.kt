@@ -32,14 +32,14 @@ class PictureAdapter(private val mainActivity: MainActivity) : RecyclerView.Adap
         return PictureViewHolder(binding)
             .also { holder ->
             binding.root.setOnLongClickListener{ removeItem(holder.layoutPosition,parent) }
-            binding.root.setOnClickListener{ editItem(holder.layoutPosition) }
+            binding.root.setOnClickListener{ showItem(holder.layoutPosition) }
         }
     }
 
-    private fun editItem(id: Int)
+    private fun showItem(id: Int)
     {
-        mainActivity.openShowPictureActivity(id)
-        notifyItemChanged(id)
+        mainActivity.openShowPictureActivity(pictures[id].id)
+//        notifyItemChanged(id)
     }
 
 
