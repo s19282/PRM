@@ -10,7 +10,6 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -25,9 +24,11 @@ import pl.edu.pja.travelerapp.model.Picture_
 import kotlin.concurrent.thread
 
 const val CAMERA_PERMISSIONS_REQUEST = 1
+const val LOCATION_PERMISSIONS_REQUEST = 4
 const val CAMERA_INTENT_REQUEST = 2
 const val DESCRIPTION_INTENT_REQUEST = 3
-const val SHOW_PICTURE_INTENT_REQUEST = 3
+const val SHOW_PICTURE_INTENT_REQUEST = 5
+const val SETTINGS_INTENT_REQUEST = 6
 
 class MainActivity : AppCompatActivity() {
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
@@ -41,7 +42,18 @@ class MainActivity : AppCompatActivity() {
         binding.openCamera.setOnClickListener{
           startCamera()
         }
+        binding.settingsButton.setOnClickListener{
+            startActivityForResult(Intent(applicationContext,SettingsActivity::class.java),
+                SETTINGS_INTENT_REQUEST)
+        }
+        askLocationPermission()
         showPhotos()
+    }
+
+    private fun askLocationPermission() {
+        if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSIONS_REQUEST)
+        }
     }
 
 

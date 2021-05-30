@@ -5,6 +5,8 @@
     <uses-feature android:name="android.hardware.camera.any" />
 
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -13,8 +15,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TravelerApp">
-        <activity android:name=".ShowPictureActivity"></activity>
-        <activity android:name=".adapter.PictureItem" />
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/title_activity_settings"></activity>
+        <activity android:name=".ShowPictureActivity" />
         <activity android:name=".DescriptionActivity" />
         <activity android:name=".CameraActivity" />
         <activity android:name=".MainActivity">
