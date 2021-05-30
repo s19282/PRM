@@ -1,5 +1,7 @@
 package pl.edu.pja.travelerapp
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import android.widget.Spinner
@@ -13,6 +15,21 @@ class SettingsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         setupSpinners()
+        binding.button2.setOnClickListener{
+            val intent = Intent().apply {
+                putExtra("textColor",binding.colorSpinner.selectedItem.toString())
+                putExtra("textSize",binding.textSizeSpinner.selectedItem.toString())
+                if(binding.radius.text.isNotEmpty())
+                {
+                    putExtra("radius",binding.radius.text.toString().toInt())
+                }
+            }
+            println(binding.colorSpinner.selectedItem.toString())
+            println(binding.textSizeSpinner.selectedItem.toString())
+            println(binding.radius.text.toString().toInt())
+            setResult(Activity.RESULT_OK,intent)
+            finish()
+        }
     }
 
     private fun setupSpinners()

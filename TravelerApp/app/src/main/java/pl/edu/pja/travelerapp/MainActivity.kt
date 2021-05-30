@@ -2,6 +2,7 @@ package pl.edu.pja.travelerapp
 
 import android.Manifest
 import android.content.ContentValues
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.*
@@ -33,6 +34,8 @@ const val SETTINGS_INTENT_REQUEST = 6
 class MainActivity : AppCompatActivity() {
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
     private val pictureAdapter by lazy { PictureAdapter(this) }
+    private val settings by lazy { getSharedPreferences("settings", Context.MODE_PRIVATE) }
+//TODO : check what happened if file not exists (image)
     private var uri = Uri.EMPTY
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,6 +51,9 @@ class MainActivity : AppCompatActivity() {
         }
         askLocationPermission()
         showPhotos()
+        settings.edit().putString("textColor","Black").apply()
+        settings.edit().putString("textSize","Medium").apply()
+        settings.edit().putInt("radius",1).apply()
     }
 
     private fun askLocationPermission() {
@@ -118,6 +124,26 @@ class MainActivity : AppCompatActivity() {
                 Shared.db?.note?.insert(note)
             }
         }
+        if(requestCode == SETTINGS_INTENT_REQUEST && resultCode == RESULT_OK)
+        {
+            println(settings.getString("textColor","abc"))
+            println(settings.getString("textSize","cba"))
+            println(settings.getInt("radius",-1))
+            if (data != null) {
+                data.getStringExtra("textColor").let {
+                    settings.edit().putString("textColor",it).apply()
+                }
+                data.getStringExtra("textSize").let {
+                    settings.edit().putString("textSize",it).apply()
+                }
+                data.getIntExtra("radius",1).let {
+                    settings.edit().putInt("radius",it).apply()
+                }
+            }
+            println(settings.getString("textColor","abc"))
+            println(settings.getString("textSize","cba"))
+            println(settings.getInt("radius",-1))
+        }
         super.onActivityResult(requestCode, resultCode, data)
     }
 
@@ -165,11 +191,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun Bitmap.drawText(
-        text:String = LocalDate.now().toString(),
-        textSize:Float = 55f,
-        color:Int = Color.RED
-    ):Bitmap?{
+    private fun Bitmap.drawText():Bitmap?{
+        val text = LocalDate.now().toString()
+        val textSizeString = settings.getString("textSize","Medium")
+        val textSize = if(textSizeString=="Big") 60f else if(textSizeString=="Medium") 40f else 20f
+        val color:Int = Color.parseColor(settings.getString("textColor","Purple"))
         val bitmap = copy(config,true)
         val canvas = Canvas(bitmap)
 

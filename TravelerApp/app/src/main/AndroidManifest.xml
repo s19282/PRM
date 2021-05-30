@@ -17,7 +17,7 @@
         android:theme="@style/Theme.TravelerApp">
         <activity
             android:name=".SettingsActivity"
-            android:label="@string/title_activity_settings"></activity>
+            android:label="@string/title_activity_settings" />
         <activity android:name=".ShowPictureActivity" />
         <activity android:name=".DescriptionActivity" />
         <activity android:name=".CameraActivity" />
