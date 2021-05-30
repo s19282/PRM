@@ -30,10 +30,10 @@ class PictureAdapter(private val mainActivity: MainActivity) : RecyclerView.Adap
             false
         )
         return PictureViewHolder(binding)
-//            .also { holder ->
-//            binding.root.setOnLongClickListener{ removeItem(holder.layoutPosition,parent) }
-//            binding.root.setOnClickListener{ editItem(holder.layoutPosition) }
-//        }
+            .also { holder ->
+            binding.root.setOnLongClickListener{ removeItem(holder.layoutPosition,parent) }
+            binding.root.setOnClickListener{ editItem(holder.layoutPosition) }
+        }
     }
 
     private fun editItem(id: Int)
@@ -50,7 +50,7 @@ class PictureAdapter(private val mainActivity: MainActivity) : RecyclerView.Adap
             .setCancelable(false)
             .setPositiveButton("Yes") { _, _ ->
                 thread {
-                    Shared.db?.note?.delete(position.toLong())
+                    Shared.db?.note?.delete(pictures[position].id)
                     pictures.removeAt(position);
                     mainActivity.runOnUiThread{
                         notifyItemRemoved(position)
