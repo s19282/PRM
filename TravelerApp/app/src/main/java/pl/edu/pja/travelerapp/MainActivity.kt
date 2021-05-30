@@ -22,6 +22,7 @@ import java.time.LocalDate
 import java.util.*
 import pl.edu.pja.travelerapp.adapter.PictureAdapter
 import pl.edu.pja.travelerapp.model.Picture_
+import java.io.FileNotFoundException
 import kotlin.concurrent.thread
 
 const val CAMERA_PERMISSIONS_REQUEST = 1
@@ -35,7 +36,7 @@ class MainActivity : AppCompatActivity() {
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
     private val pictureAdapter by lazy { PictureAdapter(this) }
     private val settings by lazy { getSharedPreferences("settings", Context.MODE_PRIVATE) }
-//TODO : check what happened if file not exists (image)
+
     private var uri = Uri.EMPTY
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -156,14 +157,21 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
         thread {
             Shared.db?.note?.selectAll()?.let { it ->
-                val list = it.map {
-                    val image = ImageDecoder.decodeBitmap(ImageDecoder.createSource(this.contentResolver, it.imageName.toUri()))
-                    Picture_(
-                        it.id,
-                        it.note,
-                        it.imageName,
-                        image
-                    )
+                val list = mutableListOf<Picture_>()
+                it.forEach {
+                    try{
+                        val image = ImageDecoder.decodeBitmap(ImageDecoder.createSource(this.contentResolver, it.imageName.toUri()))
+                        val picture_ = Picture_(
+                            it.id,
+                            it.note,
+                            it.imageName,
+                            image
+                        )
+                        list.add(picture_)
+                    }catch (e: FileNotFoundException)
+                    {
+                        Shared.db?.note?.delete(it.id)
+                    }
                 }
                 pictureAdapter.pictures = list.toMutableList()
             }
