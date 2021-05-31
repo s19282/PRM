@@ -2,6 +2,9 @@ package pl.edu.pja.travelerapp
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
@@ -20,10 +23,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
-import com.google.android.gms.location.LocationCallback
-import com.google.android.gms.location.LocationRequest
-import com.google.android.gms.location.LocationResult
-import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.*
 import pl.edu.pja.travelerapp.database.AppDatabase
 import pl.edu.pja.travelerapp.databinding.ActivityMainBinding
 import pl.edu.pja.travelerapp.model.NoteDTO
@@ -75,7 +75,6 @@ class MainActivity : AppCompatActivity() {
             requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSIONS_REQUEST)
         }
     }
-
 
     private fun generateURI() {
         val tmp = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
@@ -141,13 +140,13 @@ class MainActivity : AppCompatActivity() {
             )
             thread {
                 Shared.db?.note?.insert(note)
+                Shared.db?.note?.selectByImageName(uri.toString()).let {
+                    it?.id?.toInt()?.let { it1 -> setGeofence(it1,loc.latitude,loc.longitude) }}
             }
         }
         if(requestCode == SETTINGS_INTENT_REQUEST && resultCode == RESULT_OK)
         {
-            println(settings.getString("textColor","abc"))
-            println(settings.getString("textSize","cba"))
-            println(settings.getInt("radius",-1))
+
             if (data != null) {
                 data.getStringExtra("textColor").let {
                     settings.edit().putString("textColor",it).apply()
@@ -208,6 +207,7 @@ class MainActivity : AppCompatActivity() {
 //            Shared.db?.note?.insert(noteDTO)
 //        }
 //    }
+}
 
     private fun saveImage(bitmap: Bitmap?) {
         if (bitmap != null) {
@@ -268,6 +268,43 @@ class MainActivity : AppCompatActivity() {
             Intent(this, ShowPictureActivity::class.java)
                 .putExtra("id",id),
                 SHOW_PICTURE_INTENT_REQUEST
+        )
+    }
+
+    private fun setGeofence(requestCode: Int, latitude: Double, longitude: Double) {
+        println(requestCode)
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            geofencingClient.addGeofences(
+                generateRequest(latitude, longitude),
+                generatePendingIntent(requestCode)
+            )
+        }
+    }
+
+    private fun generateRequest(latitude: Double, longitude: Double): GeofencingRequest {
+        val geofence = Geofence.Builder()
+            .setCircularRegion(latitude, longitude, settings.getInt("radius", 1)*1000f)
+            .setRequestId(uri.toString())
+            .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER)
+            .setExpirationDuration(Geofence.NEVER_EXPIRE)
+            .build()
+
+        return GeofencingRequest.Builder()
+            .addGeofence(geofence)
+            .setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_EXIT)
+            .build()
+    }
+
+    private fun generatePendingIntent(requestCode: Int): PendingIntent {
+        return PendingIntent.getBroadcast(
+            applicationContext,
+            requestCode,
+            Intent(this, Notifier::class.java),
+            PendingIntent.FLAG_UPDATE_CURRENT
         )
     }
 }

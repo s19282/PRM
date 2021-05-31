@@ -15,7 +15,7 @@ interface NoteDao
     fun selectAll(): List<NoteDTO>
 
     @Query("SELECT * FROM Note where imageName = :imageName;")
-    fun selectByImageName(imageName: String): List<NoteDTO>
+    fun selectByImageName(imageName: String): NoteDTO
 
     @Query("DELETE FROM Note WHERE id = :id")
     fun delete(id: Long)
