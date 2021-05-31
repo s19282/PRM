@@ -1,20 +1,29 @@
 package pl.edu.pja.travelerapp
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.*
 import android.icu.text.SimpleDateFormat
+import android.location.Geocoder
+import android.location.Location
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Looper
 import android.provider.MediaStore
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationResult
+import com.google.android.gms.location.LocationServices
 import pl.edu.pja.travelerapp.database.AppDatabase
 import pl.edu.pja.travelerapp.databinding.ActivityMainBinding
 import pl.edu.pja.travelerapp.model.NoteDTO
@@ -36,7 +45,10 @@ class MainActivity : AppCompatActivity() {
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
     private val pictureAdapter by lazy { PictureAdapter(this) }
     private val settings by lazy { getSharedPreferences("settings", Context.MODE_PRIVATE) }
-
+    private val locClient by lazy { LocationServices.getFusedLocationProviderClient(this) }
+    private val geofencingClient by lazy { LocationServices.getGeofencingClient(this) }
+    private lateinit var loc: Location
+//TODO images not removing
     private var uri = Uri.EMPTY
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,6 +63,7 @@ class MainActivity : AppCompatActivity() {
                 SETTINGS_INTENT_REQUEST)
         }
         askLocationPermission()
+        startRequesting()
         showPhotos()
         settings.edit().putString("textColor","Black").apply()
         settings.edit().putString("textSize","Medium").apply()
@@ -112,15 +125,20 @@ class MainActivity : AppCompatActivity() {
         }
         if(requestCode == DESCRIPTION_INTENT_REQUEST && resultCode == RESULT_OK && data != null)
         {
+            var city = ""
+            var country = ""
+            if (Geocoder.isPresent()) {
+                val geo = Geocoder(applicationContext).getFromLocation(loc.latitude,loc.longitude, 1).first()
+                country = geo.countryName
+                city = geo.locality
+            }
             val description = data.getStringExtra("note")
-//            TODO: something
             val note = NoteDTO(
                 note = description.orEmpty(),
                 imageName = uri.toString(),
-                city = "notImplemented",
-                country = "notImplemented"
+                city = city,
+                country = country
             )
-//            saveToDb(note)
             thread {
                 Shared.db?.note?.insert(note)
             }
@@ -198,9 +216,35 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+    private val locationCallback = object : LocationCallback() {
+        @SuppressLint("SetTextI18n")
+        override fun onLocationResult(locationResult: LocationResult?) {
+            locationResult ?: return
+            for (location in locationResult.locations){
+                loc = location
+            }
+        }
+    }
+    @SuppressLint("MissingPermission")
+    fun startRequesting() {
+        val locationRequest = LocationRequest.create().apply {
+            interval = 5000
+            numUpdates = 10
+            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+        }
+        locClient.requestLocationUpdates(
+            locationRequest,
+            locationCallback,
+            Looper.getMainLooper()
+        )
+    }
 
     private fun Bitmap.drawText():Bitmap?{
-        val text = LocalDate.now().toString()
+        var text = ""
+        if (Geocoder.isPresent()) {
+            val geo = Geocoder(applicationContext).getFromLocation(loc.latitude,loc.longitude, 1).first()
+            text = "${geo.locality}, ${geo.countryName} ${LocalDate.now()}"
+        }
         val textSizeString = settings.getString("textSize","Medium")
         val textSize = if(textSizeString=="Big") 60f else if(textSizeString=="Medium") 40f else 20f
         val color:Int = Color.parseColor(settings.getString("textColor","Purple"))
