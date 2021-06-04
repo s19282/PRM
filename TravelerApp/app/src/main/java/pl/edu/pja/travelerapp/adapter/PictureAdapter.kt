@@ -50,8 +50,10 @@ class PictureAdapter(private val mainActivity: MainActivity) : RecyclerView.Adap
             .setCancelable(false)
             .setPositiveButton("Yes") { _, _ ->
                 thread {
+                    mainActivity.deletePhoto(pictures[position].imageName)
+                    mainActivity.geofencingClient.removeGeofences(mutableListOf(pictures[position].id.toString()))
                     Shared.db?.note?.delete(pictures[position].id)
-                    pictures.removeAt(position);
+                    pictures.removeAt(position)
                     mainActivity.runOnUiThread{
                         notifyItemRemoved(position)
                     }

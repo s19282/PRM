@@ -31,6 +31,7 @@ import java.time.LocalDate
 import java.util.*
 import pl.edu.pja.travelerapp.adapter.PictureAdapter
 import pl.edu.pja.travelerapp.model.Picture_
+import java.io.File
 import java.io.FileNotFoundException
 import kotlin.concurrent.thread
 
@@ -46,9 +47,8 @@ class MainActivity : AppCompatActivity() {
     private val pictureAdapter by lazy { PictureAdapter(this) }
     private val settings by lazy { getSharedPreferences("settings", Context.MODE_PRIVATE) }
     private val locClient by lazy { LocationServices.getFusedLocationProviderClient(this) }
-    private val geofencingClient by lazy { LocationServices.getGeofencingClient(this) }
+    val geofencingClient: GeofencingClient by lazy { LocationServices.getGeofencingClient(this) }
     private lateinit var loc: Location
-//TODO images not removing
     private var uri = Uri.EMPTY
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -69,6 +69,18 @@ class MainActivity : AppCompatActivity() {
         settings.edit().putString("textColor","Black").apply()
         settings.edit().putString("textSize","Medium").apply()
         settings.edit().putInt("radius",1).apply()
+    }
+
+    fun deletePhoto(name: String)
+    {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            contentResolver.delete(Uri.parse(name),null)
+        } else {
+            val file = File(name)
+            if (file.exists()) {
+                file.delete()
+            }
+        }
     }
 
     private fun askLocationPermission() {
@@ -300,7 +312,7 @@ private fun registerChannel() {
             .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER)
             .setExpirationDuration(Geofence.NEVER_EXPIRE)
             .build()
-
+        println("aaaaaaaaaaaaaaaaaaaa $requestCode")
         return GeofencingRequest.Builder()
             .addGeofence(geofence)
             .setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_EXIT)
