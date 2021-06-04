@@ -312,7 +312,6 @@ private fun registerChannel() {
             .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER)
             .setExpirationDuration(Geofence.NEVER_EXPIRE)
             .build()
-        println("aaaaaaaaaaaaaaaaaaaa $requestCode")
         return GeofencingRequest.Builder()
             .addGeofence(geofence)
             .setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_EXIT)
