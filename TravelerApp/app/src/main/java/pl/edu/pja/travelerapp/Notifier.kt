@@ -16,8 +16,7 @@ class Notifier : BroadcastReceiver() {
         }
         val descriptionActivity = Intent(context, ShowPictureActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-
-            putExtra("id", event?.triggeringGeofences?.first()?.requestId)
+            putExtra("id",event?.triggeringGeofences?.first()?.requestId.toString().toLong())
         }
         val descriptionPendingIntent: PendingIntent = PendingIntent.getActivity(
             context,

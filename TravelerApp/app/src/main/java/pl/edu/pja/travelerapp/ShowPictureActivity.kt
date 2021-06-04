@@ -14,7 +14,7 @@ class ShowPictureActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        if(intent.hasExtra("id")) intent.extras?.let { fillWithData(it.getLong("id",-1)) }
+        if(intent.hasExtra("id"))   fillWithData(intent.extras?.get("id") as Long)
     }
 
     private fun fillWithData(i: Long) {

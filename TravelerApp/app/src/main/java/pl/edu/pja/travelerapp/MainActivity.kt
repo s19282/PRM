@@ -287,16 +287,16 @@ private fun registerChannel() {
         )
         {
             geofencingClient.addGeofences(
-                generateRequest(latitude, longitude),
+                generateRequest(requestCode,latitude, longitude),
                 generatePendingIntent(requestCode)
             )
         }
     }
 
-    private fun generateRequest(latitude: Double, longitude: Double): GeofencingRequest {
+    private fun generateRequest(requestCode: Int, latitude: Double, longitude: Double): GeofencingRequest {
         val geofence = Geofence.Builder()
             .setCircularRegion(latitude, longitude, settings.getInt("radius", 1)*1000f)
-            .setRequestId(uri.toString())
+            .setRequestId(requestCode.toString())
             .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER)
             .setExpirationDuration(Geofence.NEVER_EXPIRE)
             .build()
