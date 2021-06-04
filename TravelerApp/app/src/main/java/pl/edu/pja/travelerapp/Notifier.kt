@@ -10,7 +10,6 @@ import com.google.android.gms.location.GeofencingEvent
 
 class Notifier : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
-        println("back!!!!!")
         val event = intent?.let {
             GeofencingEvent.fromIntent(it)
         }
@@ -18,18 +17,19 @@ class Notifier : BroadcastReceiver() {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             putExtra("id",event?.triggeringGeofences?.first()?.requestId.toString().toLong())
         }
-        val descriptionPendingIntent: PendingIntent = PendingIntent.getActivity(
-            context,
-            5,
-            descriptionActivity,
-            PendingIntent.FLAG_UPDATE_CURRENT
-        )
+
         val notificationId: Int = if(intent!=null && intent.hasExtra("requestCode")) {
             intent.getIntExtra("requestCode",-1)
         }
         else {
             -2
         }
+        val descriptionPendingIntent: PendingIntent = PendingIntent.getActivity(
+            context,
+            notificationId,
+            descriptionActivity,
+            PendingIntent.FLAG_UPDATE_CURRENT
+        )
 
         context?.let {
             val notification = NotificationCompat.Builder(it, "pl.edu.pja.travelerapp.Geofence")
