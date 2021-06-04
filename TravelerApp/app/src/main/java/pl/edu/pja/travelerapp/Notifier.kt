@@ -35,6 +35,8 @@ class Notifier : BroadcastReceiver() {
             val notification = NotificationCompat.Builder(it, "pl.edu.pja.travelerapp.Geofence")
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
                 .setContentTitle("You've been to this place before")
+                .setAutoCancel(true)
+                .setOngoing(false)
                 .addAction(
                     R.drawable.ic_launcher_foreground,
                     "See picture!",
