@@ -13,7 +13,6 @@ class DescriptionActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         binding.saveButton.setOnClickListener{
-            println("clicked")
             val intent = Intent()
             intent.putExtra("note",binding.description.text.toString())
             setResult(RESULT_OK,intent)

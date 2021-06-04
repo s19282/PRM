@@ -64,6 +64,7 @@ class MainActivity : AppCompatActivity() {
         }
         askLocationPermission()
         startRequesting()
+        registerChannel()
         showPhotos()
         settings.edit().putString("textColor","Black").apply()
         settings.edit().putString("textSize","Medium").apply()
@@ -202,11 +203,16 @@ class MainActivity : AppCompatActivity() {
             DESCRIPTION_INTENT_REQUEST
         )
     }
-//    private fun saveToDb(noteDTO: NoteDTO) = runBlocking {
-//        launch {
-//            Shared.db?.note?.insert(noteDTO)
-//        }
-//    }
+
+private fun registerChannel() {
+    getSystemService(NotificationManager::class.java).let {
+        val notificationChannel = NotificationChannel(
+            "pl.edu.pja.travelerapp.Geofence",
+            "Geofences",
+            NotificationManager.IMPORTANCE_DEFAULT
+        )
+        it.createNotificationChannel(notificationChannel)
+    }
 }
 
     private fun saveImage(bitmap: Bitmap?) {
@@ -216,6 +222,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
     private val locationCallback = object : LocationCallback() {
         @SuppressLint("SetTextI18n")
         override fun onLocationResult(locationResult: LocationResult?) {
@@ -225,6 +232,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
     @SuppressLint("MissingPermission")
     fun startRequesting() {
         val locationRequest = LocationRequest.create().apply {
@@ -272,12 +280,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setGeofence(requestCode: Int, latitude: Double, longitude: Double) {
-        println(requestCode)
         if (ActivityCompat.checkSelfPermission(
                 this,
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED
-        ) {
+        )
+        {
             geofencingClient.addGeofences(
                 generateRequest(latitude, longitude),
                 generatePendingIntent(requestCode)
@@ -303,7 +311,8 @@ class MainActivity : AppCompatActivity() {
         return PendingIntent.getBroadcast(
             applicationContext,
             requestCode,
-            Intent(this, Notifier::class.java),
+            Intent(this, Notifier::class.java)
+                .putExtra("requestCode",requestCode),
             PendingIntent.FLAG_UPDATE_CURRENT
         )
     }
