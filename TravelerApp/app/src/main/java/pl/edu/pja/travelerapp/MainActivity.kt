@@ -69,6 +69,7 @@ class MainActivity : AppCompatActivity() {
         askLocationPermission()
         startRequesting()
         registerChannel()
+        updatePhotosList()
         showPhotos()
         settings.edit().putString("textColor","Red").apply()
         settings.edit().putString("textSize","Medium").apply()
@@ -134,7 +135,8 @@ class MainActivity : AppCompatActivity() {
                 .drawText()
 
             saveImage(bitmap)
-            showPhotos()
+//            updatePhotosList()
+//            showPhotos()
             openDescriptionActivity()
         }
         if(requestCode == DESCRIPTION_INTENT_REQUEST && resultCode == RESULT_OK && data != null)
@@ -158,11 +160,12 @@ class MainActivity : AppCompatActivity() {
                 Shared.db?.note?.insert(note)
                 Shared.db?.note?.selectByImageName(uri.toString()).let {
                     it?.id?.toInt()?.let { it1 -> setGeofence(it1,loc.latitude,loc.longitude) }}
+            }.let {
+                updatePhotosList()
             }
         }
         if(requestCode == SETTINGS_INTENT_REQUEST && resultCode == RESULT_OK)
         {
-
             if (data != null) {
                 data.getStringExtra("textColor").let {
                     settings.edit().putString("textColor",it).apply()
@@ -183,8 +186,8 @@ class MainActivity : AppCompatActivity() {
         binding.photosList.adapter = pictureAdapter
     }
 
-    override fun onResume() {
-        super.onResume()
+    private fun updatePhotosList()
+    {
         thread {
             Shared.db?.note?.selectAll()?.let { it ->
                 val list = mutableListOf<Picture_>()
