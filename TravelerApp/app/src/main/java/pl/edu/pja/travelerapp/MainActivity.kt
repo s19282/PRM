@@ -42,7 +42,7 @@ const val CAMERA_INTENT_REQUEST = 2
 const val DESCRIPTION_INTENT_REQUEST = 3
 const val SHOW_PICTURE_INTENT_REQUEST = 5
 const val SETTINGS_INTENT_REQUEST = 6
-//TODO: location after first launch
+
 class MainActivity : AppCompatActivity() {
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
     private val pictureAdapter by lazy { PictureAdapter(this) }
@@ -106,7 +106,6 @@ class MainActivity : AppCompatActivity() {
             put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
         }
         uri = contentResolver?.insert(tmp, contentValues)
-
     }
 
     private fun startCamera() {
@@ -119,7 +118,6 @@ class MainActivity : AppCompatActivity() {
             generateURI()
             val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
             intent.putExtra(MediaStore.EXTRA_OUTPUT,uri)
-
             startActivityForResult(intent, CAMERA_INTENT_REQUEST)
         }
     }
@@ -173,9 +171,6 @@ class MainActivity : AppCompatActivity() {
                     settings.edit().putInt("radius",it).apply()
                 }
             }
-            println(settings.getString("textColor","abc"))
-            println(settings.getString("textSize","cba"))
-            println(settings.getInt("radius",-1))
         }
         super.onActivityResult(requestCode, resultCode, data)
     }
@@ -218,16 +213,16 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
-private fun registerChannel() {
-    getSystemService(NotificationManager::class.java).let {
-        val notificationChannel = NotificationChannel(
-            "pl.edu.pja.travelerapp.Geofence",
-            "Geofences",
-            NotificationManager.IMPORTANCE_DEFAULT
-        )
-        it.createNotificationChannel(notificationChannel)
+    private fun registerChannel() {
+        getSystemService(NotificationManager::class.java).let {
+            val notificationChannel = NotificationChannel(
+                "pl.edu.pja.travelerapp.Geofence",
+                "Geofences",
+                NotificationManager.IMPORTANCE_DEFAULT
+            )
+            it.createNotificationChannel(notificationChannel)
+        }
     }
-}
 
     private fun saveImage(bitmap: Bitmap?) {
         if (bitmap != null) {
