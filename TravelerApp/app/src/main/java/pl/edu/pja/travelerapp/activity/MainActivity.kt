@@ -136,8 +136,7 @@ class MainActivity : AppCompatActivity() {
                 .drawText()
 
             saveImage(bitmap)
-//            updatePhotosList()
-//            showPhotos()
+            showPhotos()
             openDescriptionActivity()
         }
         if(requestCode == DESCRIPTION_INTENT_REQUEST && resultCode == RESULT_OK && data != null)
@@ -159,10 +158,9 @@ class MainActivity : AppCompatActivity() {
             )
             thread {
                 Shared.db?.note?.insert(note)
+                updatePhotosList()
                 Shared.db?.note?.selectByImageName(uri.toString()).let {
                     it?.id?.toInt()?.let { it1 -> setGeofence(it1,loc.latitude,loc.longitude) }}
-            }.let {
-                updatePhotosList()
             }
         }
         if(requestCode == SETTINGS_INTENT_REQUEST && resultCode == RESULT_OK)
