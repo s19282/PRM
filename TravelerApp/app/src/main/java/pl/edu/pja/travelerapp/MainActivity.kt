@@ -51,7 +51,8 @@ class MainActivity : AppCompatActivity() {
     val geofencingClient: GeofencingClient by lazy { LocationServices.getGeofencingClient(this) }
     private lateinit var loc: Location
     private var uri = Uri.EMPTY
-
+//TODO: new image not always shows
+//    TODO: location not initialized
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
