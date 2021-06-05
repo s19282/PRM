@@ -60,7 +60,10 @@ class MainActivity : AppCompatActivity() {
           startCamera()
         }
         binding.settingsButton.setOnClickListener{
-            startActivityForResult(Intent(applicationContext,SettingsActivity::class.java),
+            startActivityForResult(Intent(applicationContext,SettingsActivity::class.java)
+                .putExtra("textSize",settings.getString("textSize","Medium"))
+                .putExtra("textColor", settings.getString("textColor", "Red"))
+                .putExtra("radius", settings.getInt("radius",1)),
                 SETTINGS_INTENT_REQUEST)
         }
         askLocationPermission()

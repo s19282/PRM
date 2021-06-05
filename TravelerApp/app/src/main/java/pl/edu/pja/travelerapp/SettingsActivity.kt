@@ -15,6 +15,7 @@ class SettingsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         setupSpinners()
+        setData()
         binding.button2.setOnClickListener{
             val intent = Intent().apply {
                 putExtra("textColor",binding.colorSpinner.selectedItem.toString())
@@ -28,11 +29,19 @@ class SettingsActivity : AppCompatActivity() {
                     putExtra("radius",1)
                 }
             }
-            println(binding.colorSpinner.selectedItem.toString())
-            println(binding.textSizeSpinner.selectedItem.toString())
-            println(binding.radius.text.toString().toInt())
             setResult(Activity.RESULT_OK,intent)
             finish()
+        }
+
+    }
+
+    private fun setData() {
+        if (intent.hasExtra("textColor") && intent.hasExtra("textSize") && intent.hasExtra("radius")) {
+            val colArray = resources.getStringArray(R.array.colors)
+            binding.colorSpinner.setSelection(colArray.indexOf(intent.getStringExtra("textColor")))
+            val sizeArray = resources.getStringArray(R.array.textSizes)
+            binding.textSizeSpinner.setSelection(sizeArray.indexOf(intent.getStringExtra("textSize")))
+            binding.radius.setText(intent.getIntExtra("radius",1).toString())
         }
     }
 
