@@ -1,9 +1,10 @@
-package pl.edu.pja.travelerapp
+package pl.edu.pja.travelerapp.activity
 
 import android.graphics.ImageDecoder
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.core.net.toUri
+import pl.edu.pja.travelerapp.Shared
 import pl.edu.pja.travelerapp.databinding.ActivityShowPictureBinding
 import kotlin.concurrent.thread
 

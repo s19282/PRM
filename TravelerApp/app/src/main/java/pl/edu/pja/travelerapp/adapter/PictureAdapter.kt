@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.os.HandlerCompat
 import androidx.recyclerview.widget.RecyclerView
-import pl.edu.pja.travelerapp.MainActivity
+import pl.edu.pja.travelerapp.activity.MainActivity
 import pl.edu.pja.travelerapp.Shared
 import pl.edu.pja.travelerapp.databinding.PictureItemBinding
 import pl.edu.pja.travelerapp.model.Picture_

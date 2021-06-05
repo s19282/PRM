@@ -1,4 +1,4 @@
-package pl.edu.pja.travelerapp
+package pl.edu.pja.travelerapp.activity
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -18,12 +18,13 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Looper
 import android.provider.MediaStore
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import com.google.android.gms.location.*
+import pl.edu.pja.travelerapp.Notifier
+import pl.edu.pja.travelerapp.Shared
 import pl.edu.pja.travelerapp.database.AppDatabase
 import pl.edu.pja.travelerapp.databinding.ActivityMainBinding
 import pl.edu.pja.travelerapp.model.NoteDTO
@@ -33,7 +34,6 @@ import pl.edu.pja.travelerapp.adapter.PictureAdapter
 import pl.edu.pja.travelerapp.model.Picture_
 import java.io.File
 import java.io.FileNotFoundException
-import java.lang.Thread.sleep
 import kotlin.concurrent.thread
 
 const val CAMERA_PERMISSIONS_REQUEST = 1
@@ -51,8 +51,7 @@ class MainActivity : AppCompatActivity() {
     val geofencingClient: GeofencingClient by lazy { LocationServices.getGeofencingClient(this) }
     private lateinit var loc: Location
     private var uri = Uri.EMPTY
-//TODO: new image not always shows
-//    TODO: location not initialized
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -61,11 +60,12 @@ class MainActivity : AppCompatActivity() {
           startCamera()
         }
         binding.settingsButton.setOnClickListener{
-            startActivityForResult(Intent(applicationContext,SettingsActivity::class.java)
+            startActivityForResult(Intent(applicationContext, SettingsActivity::class.java)
                 .putExtra("textSize",settings.getString("textSize","Medium"))
                 .putExtra("textColor", settings.getString("textColor", "Red"))
                 .putExtra("radius", settings.getInt("radius",1)),
-                SETTINGS_INTENT_REQUEST)
+                SETTINGS_INTENT_REQUEST
+            )
         }
         askLocationPermission()
         startRequesting()
@@ -208,6 +208,7 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
                 pictureAdapter.pictures = list.toMutableList()
+                runOnUiThread{ pictureAdapter.notifyDataSetChanged() }
             }
         }
     }

@@ -1,4 +1,4 @@
-package pl.edu.pja.travelerapp
+package pl.edu.pja.travelerapp.activity
 
 import android.app.Activity
 import android.content.Intent
@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.appcompat.app.AppCompatActivity
+import pl.edu.pja.travelerapp.R
 import pl.edu.pja.travelerapp.databinding.SettingsActivityBinding
 
 class SettingsActivity : AppCompatActivity() {

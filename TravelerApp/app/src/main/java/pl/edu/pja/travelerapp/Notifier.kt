@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.core.app.NotificationCompat
 import com.google.android.gms.location.GeofencingEvent
+import pl.edu.pja.travelerapp.activity.ShowPictureActivity
 
 class Notifier : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
