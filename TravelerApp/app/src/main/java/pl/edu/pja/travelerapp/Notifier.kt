@@ -13,6 +13,7 @@ class Notifier : BroadcastReceiver() {
         val event = intent?.let {
             GeofencingEvent.fromIntent(it)
         }
+
         val descriptionActivity = Intent(context, ShowPictureActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             putExtra("id",event?.triggeringGeofences?.first()?.requestId.toString().toLong())
@@ -36,7 +37,8 @@ class Notifier : BroadcastReceiver() {
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
                 .setContentTitle("You've been to this place before")
                 .setAutoCancel(true)
-                .setOngoing(false)
+//                .setOngoing(false)
+//                .setStyle(NotificationCompat.BigPictureStyle())
                 .addAction(
                     R.drawable.ic_launcher_foreground,
                     "See picture!",

@@ -33,6 +33,7 @@ import pl.edu.pja.travelerapp.adapter.PictureAdapter
 import pl.edu.pja.travelerapp.model.Picture_
 import java.io.File
 import java.io.FileNotFoundException
+import java.lang.Thread.sleep
 import kotlin.concurrent.thread
 
 const val CAMERA_PERMISSIONS_REQUEST = 1
@@ -41,7 +42,7 @@ const val CAMERA_INTENT_REQUEST = 2
 const val DESCRIPTION_INTENT_REQUEST = 3
 const val SHOW_PICTURE_INTENT_REQUEST = 5
 const val SETTINGS_INTENT_REQUEST = 6
-
+//TODO: location after first launch
 class MainActivity : AppCompatActivity() {
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
     private val pictureAdapter by lazy { PictureAdapter(this) }
@@ -66,7 +67,7 @@ class MainActivity : AppCompatActivity() {
         startRequesting()
         registerChannel()
         showPhotos()
-        settings.edit().putString("textColor","Black").apply()
+        settings.edit().putString("textColor","Red").apply()
         settings.edit().putString("textSize","Medium").apply()
         settings.edit().putInt("radius",1).apply()
     }
@@ -139,6 +140,7 @@ class MainActivity : AppCompatActivity() {
         {
             var city = ""
             var country = ""
+
             if (Geocoder.isPresent()) {
                 val geo = Geocoder(applicationContext).getFromLocation(loc.latitude,loc.longitude, 1).first()
                 country = geo.countryName
