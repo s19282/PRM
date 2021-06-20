@@ -9,5 +9,5 @@ data class Article(
     val photo: Drawable?
 )
 {
-    constructor(item: Item, string: String) : this(item.title, item.description, item.link, Drawable.createFromPath(string))
+    constructor(item: Item) : this(item.title, item.description, item.link, null)
 }

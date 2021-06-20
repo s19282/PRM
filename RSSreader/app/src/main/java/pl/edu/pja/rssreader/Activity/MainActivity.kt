@@ -20,8 +20,8 @@ import pl.edu.pja.rssreader.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
-    private val articleAdapter by lazy { ArticleAdapter() }
-    private lateinit var auth: FirebaseAuth
+    private val articleAdapter by lazy { ArticleAdapter(this) }
+    lateinit var auth: FirebaseAuth
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
                 if (response.isSuccessful && response.body() != null) {
                     val content = response.body()
                     content?.channel?.item?.forEach{
-                        Shared.listOfArticles.add(Article(it,""))
+                        Shared.listOfArticles.add(Article(it))
                     }
                     runOnUiThread {
                         articleAdapter.notifyDataSetChanged()
