@@ -6,7 +6,7 @@ import retrofit2.converter.simplexml.SimpleXmlConverterFactory
 
 
 object ApiClient {
-    private const val BASE_URL: String = "https://zaufanatrzeciastrona.pl/"
+    private const val BASE_URL: String = "https://wiadomosci.gazeta.pl/"
 
     private val httpClient : OkHttpClient by lazy {
         OkHttpClient.Builder().build()

@@ -6,6 +6,6 @@ import retrofit2.http.*
 
 interface ApiService {
 
-    @GET("feed")
+    @GET("pub/rss/wiadomosci.htm")
     suspend fun getItems(): Response<Rss>
 }
