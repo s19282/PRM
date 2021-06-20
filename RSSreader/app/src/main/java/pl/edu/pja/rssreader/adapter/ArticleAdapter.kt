@@ -1,7 +1,9 @@
 package pl.edu.pja.rssreader.adapter
 
+import android.graphics.Color
 import android.net.Uri
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.browser.customtabs.CustomTabsIntent
@@ -26,8 +28,14 @@ class ArticleAdapter(private val mainActivity: MainActivity) : RecyclerView.Adap
         )
         return ArticleItem(binding)
             .also { holder ->
-            binding.root.setOnClickListener { openNews(holder.layoutPosition) }
-            binding.root.setOnClickListener{ addToFavourites(holder.layoutPosition) }
+
+            binding.root.setOnClickListener {
+                holder.itemView.setBackgroundColor(Color.parseColor("#94979c"))
+                openNews(holder.layoutPosition)
+            }
+            binding.root.setOnLongClickListener{
+                addToFavourites(holder.layoutPosition)
+            }
         }
     }
 
@@ -40,10 +48,8 @@ class ArticleAdapter(private val mainActivity: MainActivity) : RecyclerView.Adap
             Uri.parse(Shared.listOfArticles[index].link)
         )
     }
-    private fun addToFavourites(index: Int)
+    private fun addToFavourites(index: Int) : Boolean
     {
-//        Toast.makeText(mainActivity, "1", Toast.LENGTH_LONG).show()
-
         if(mainActivity.auth.currentUser==null)
         {
             Toast.makeText(mainActivity, "Log in first!", Toast.LENGTH_LONG).show()
@@ -54,8 +60,13 @@ class ArticleAdapter(private val mainActivity: MainActivity) : RecyclerView.Adap
             FirebaseDatabase.getInstance()
                 .getReference("favourites")
                 .child("$index")
+                .child("${Shared.listOfArticles[index].description}")
+                .child("${Shared.listOfArticles[index].link}")
+                .child("${Shared.listOfArticles[index].newsTitle}")
+                .child("bb")
                 .setValue("")
         }
+        return true
     }
 
     override fun onBindViewHolder(holder: ArticleItem, position: Int) {
