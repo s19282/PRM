@@ -10,11 +10,7 @@ import retrofit2.converter.simplexml.SimpleXmlConverterFactory
 
 
 object ApiClient {
-    private const val BASE_URL: String = "http://feeds.feedburner.com/"
-
-    private val gson : Gson by lazy {
-        GsonBuilder().setLenient().create()
-    }
+    private const val BASE_URL: String = "https://zaufanatrzeciastrona.pl/"
 
     private val httpClient : OkHttpClient by lazy {
         OkHttpClient.Builder().build()
@@ -24,10 +20,7 @@ object ApiClient {
         Retrofit.Builder()
             .baseUrl(BASE_URL)
             .client(httpClient)
-            .addConverterFactory(SimpleXmlConverterFactory.createNonStrict(
-                Persister(AnnotationStrategy())
-            ))
-//            .addConverterFactory(GsonConverterFactory.create(gson))
+            .addConverterFactory(SimpleXmlConverterFactory.create())
             .build()
     }
 
