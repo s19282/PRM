@@ -1,13 +1,13 @@
 package pl.edu.pja.rssreader.Model
 
-import android.graphics.drawable.Drawable
+import android.net.Uri
 
 data class Article(
     val newsTitle: String?,
     val description: String?,
     val link: String?,
-    val photo: Drawable?
+    val photo: Uri?
 )
 {
-    constructor(item: Item) : this(item.title, item.description, item.link, null)
+    constructor(item: Item) : this(item.title, item.description, item.link, Uri.parse(item.enclosure?.url))
 }
