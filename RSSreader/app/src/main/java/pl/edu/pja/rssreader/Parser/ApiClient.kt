@@ -1,10 +1,6 @@
-package pl.edu.pja.rssreader
+package pl.edu.pja.rssreader.Parser
 
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
-import org.simpleframework.xml.convert.AnnotationStrategy
-import org.simpleframework.xml.core.Persister
 import retrofit2.Retrofit
 import retrofit2.converter.simplexml.SimpleXmlConverterFactory
 
@@ -24,7 +20,7 @@ object ApiClient {
             .build()
     }
 
-    val apiService :  ApiService by lazy{
+    val apiService : ApiService by lazy{
         retrofit.create(ApiService::class.java)
     }
 }

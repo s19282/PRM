@@ -1,4 +1,4 @@
-package pl.edu.pja.rssreader
+package pl.edu.pja.rssreader.Activity
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -10,7 +10,7 @@ import com.google.firebase.database.FirebaseDatabase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
+import pl.edu.pja.rssreader.Parser.ApiClient
 import pl.edu.pja.rssreader.databinding.ActivityMainBinding
 
 

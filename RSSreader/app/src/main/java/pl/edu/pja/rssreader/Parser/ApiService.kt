@@ -1,4 +1,4 @@
-package pl.edu.pja.rssreader
+package pl.edu.pja.rssreader.Parser
 
 import pl.edu.pja.rssreader.Model.*
 import retrofit2.Response

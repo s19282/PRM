@@ -1,4 +1,4 @@
-package pl.edu.pja.rssreader
+package pl.edu.pja.rssreader.Activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
