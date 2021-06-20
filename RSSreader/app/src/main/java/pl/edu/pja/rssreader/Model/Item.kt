@@ -1,5 +1,6 @@
 package pl.edu.pja.rssreader.Model
 
+import android.media.Image
 import org.simpleframework.xml.Element
 import org.simpleframework.xml.Root
 
