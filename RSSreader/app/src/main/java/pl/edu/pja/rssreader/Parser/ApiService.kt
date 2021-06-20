@@ -7,5 +7,5 @@ import retrofit2.http.*
 interface ApiService {
 
     @GET("feed")
-    suspend fun getItems(): Response<Item>
+    suspend fun getItems(): Response<Rss>
 }
