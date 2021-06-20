@@ -4,8 +4,8 @@ import org.simpleframework.xml.Element
 import org.simpleframework.xml.ElementArray
 import org.simpleframework.xml.Root
 
-@Root(strict = false, name = "Item")
-data class Item (
+@Root(strict = false, name = "item")
+class Item (
     @field:Element(name = "comments", required = false) var comments: String?,
     @field:Element(name = "link", required = false) var link: String?,
     @field:Element(name = "guid", required = false) var guid: String?,
