@@ -30,7 +30,7 @@ class ArticleAdapter(private val mainActivity: MainActivity) : RecyclerView.Adap
             .also { holder ->
 
             binding.root.setOnClickListener {
-                holder.itemView.setBackgroundColor(Color.parseColor("#94979c"))
+                it.setBackgroundColor(Color.parseColor("#94979c"))
                 openNews(holder.layoutPosition)
             }
             binding.root.setOnLongClickListener{
