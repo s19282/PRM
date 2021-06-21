@@ -25,6 +25,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+        binding.button3.setOnClickListener{
+            startActivity(Intent(this, FavActivity::class.java))
+        }
         auth = FirebaseAuth.getInstance()
         findNews()
         updateList()

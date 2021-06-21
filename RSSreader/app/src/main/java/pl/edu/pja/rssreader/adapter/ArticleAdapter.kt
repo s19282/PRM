@@ -60,11 +60,27 @@ class ArticleAdapter(private val mainActivity: MainActivity) : RecyclerView.Adap
             FirebaseDatabase.getInstance()
                 .getReference("favourites")
                 .child("$index")
-                .child("${Shared.listOfArticles[index].description}")
-                .child("${Shared.listOfArticles[index].link}")
-                .child("${Shared.listOfArticles[index].newsTitle}")
-                .child("bb")
-                .setValue("")
+                .child("description")
+                .setValue("${Shared.listOfArticles[index].description}")
+
+            FirebaseDatabase.getInstance()
+                .getReference("favourites")
+                .child("$index")
+                .child("link")
+                .setValue("${Shared.listOfArticles[index].link}")
+
+            FirebaseDatabase.getInstance()
+                .getReference("favourites")
+                .child("$index")
+                .child("newsTitle")
+                .setValue("${Shared.listOfArticles[index].newsTitle}")
+
+            FirebaseDatabase.getInstance()
+                .getReference("favourites")
+                .child("$index")
+                .child("photo")
+                .setValue("${Shared.listOfArticles[index].photo}")
+
         }
         return true
     }
